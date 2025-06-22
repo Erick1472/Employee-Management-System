@@ -88,53 +88,12 @@ To get a local copy up and running, follow these simple steps.
 
 | Employee Dashboard | Attendance Management |
 | :---: | :---: |
-| ![Employee Dashboard](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_13%20AM.png) | ![Attendance](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2_2041%20AM.png) |
+| ![Employee Dashboard](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_13%20AM.png) | ![Attendance](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_41%20AM.png) |
 
 ---
 
-## 📧 Contact
+## 💬 Feedback & Contact
 
-Your Name – [@Erick1472](https://github.com/Erick1472) – erickwanjau2021@gmail.com
+This project is a continuous work in progress for learning and demonstration purposes. I am actively planning to add more features, including enhanced security and performance optimizations.
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-## Documentation
-
-**Project Description:** In this project I've tried to build an Employee Management System, which will keep all the employee details of an organization.
-The Basic CRUD operation has performed in order to make this project functional, which are Create, Read, Update and Delete any record.
-
-**Back-end Task:** I've chosen ASP.NET Core 6 Web API backend framework to build and generate the REST API which are POST(create), GET(read), PUT(update) and DELETE(delete) by communicating with the database.
-The API of this project follow the RESTful Web Service and HTTP Protocol and documented with the help of Swagger API Documentation Support.
-For Database table creation and data migration, I used Entity Framework Core ORM Tool, And Microsoft SQL Server Management Studio is used for Database Management purpose.
-
-**Front-end Task:** To visualize content on client side (in browser) I've used, component-based front-end framework ANGULAR_14. 
-Specific Components and webpages are created with HTML, Bootstrap and CSS.
-
-## Demo (Screenshots)
-
-![Homepage](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/1.png)
-
-![Employee List (Before add any)](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/2.png)
-
-![Add an Employee](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/3.png)
-
-![Database Table after Add an Employee](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/4.png)
-
-![Swagger API Documentation](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/5.png)
-
-![(API) Get a specific User by ID](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/6.png)
-
-![(WebPage) Get a specific User by ID](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/7.png)
-
-![Edit and Update the user details](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/8.png)
-
-![Database and webpage view update after Editing](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/9.png)
-
-![API Integration for GET all the Employee](https://github.com/h-Hasib/Employee-Management-System/blob/main/Screenshots/10.png)
-
-## Feedback
-
-This is just a basic web system for my learning purpose.
-I'm planning to upgrade this system with some useful features, such as, security management, performance increase, server and client side verification and validation in the upcoming updates. 
-
-if you've any suggestion please feel free to reach out me at hhasan.cse@gmail.com
+If you have any suggestions, feedback, or would like to connect, please feel free to reach out to me at **erickwanjau2021@gmail.com**.
