@@ -92,6 +92,12 @@ To get a local copy up and running, follow these simple steps.
 
 ---
 
+## 📧 Contact
+
+Your Name – [@Erick1472](https://github.com/Erick1472) – erickwanjau2021@gmail.com
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
 ## Documentation
 
 **Project Description:** In this project I've tried to build an Employee Management System, which will keep all the employee details of an organization.
