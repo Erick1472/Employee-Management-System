@@ -82,13 +82,20 @@ To get a local copy up and running, follow these simple steps.
 
 ## 🖼️ Screenshots
 
-| Login Page | Landing Page |
-| :---: | :---: |
-| ![Login](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_39_33%20AM.png) | ![Landing](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_51%20AM.png) |
+### Admin Dashboard
+![Admin Dashboard](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_39_54%20AM.png)
 
-| Employee Dashboard | Attendance Management |
-| :---: | :---: |
-| ![Employee Dashboard](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_13%20AM.png) | ![Attendance](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_41%20AM.png) |
+### Employee Dashboard
+![Employee Dashboard](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_41_28%20AM.png)
+
+### Landing Page
+![Landing Page](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_40_51%20AM.png)
+
+### Login Page
+![Login Page](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_48_37%20AM.png)
+
+### Attendance Management
+![Attendance Management](./Screenshots/Employee%20Management%20System%20-%20Google%20Chrome%2006_22_2025%2011_49_31%20AM.png)
 
 ---
 
