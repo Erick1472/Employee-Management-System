@@ -1,3 +1,7 @@
+# User-specific exceptions
+# Never ignore the Screenshots folder
+!Screenshots/
+
 # Dependencies
 node_modules/
 npm-debug.log*
