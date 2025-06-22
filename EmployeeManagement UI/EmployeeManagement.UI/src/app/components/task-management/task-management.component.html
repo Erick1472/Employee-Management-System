@@ -2,7 +2,7 @@
 
   <!-- Header Section -->
   <div class="section-header">
-    <h2 class="section-title">Task Management</h2>
+  <h2 class="section-title">Task Management</h2>
     <button class="btn-add-task" (click)="openTaskModal()">
       <i class="bi bi-plus-lg me-1"></i> Add New Task
     </button>
@@ -11,17 +11,17 @@
   <!-- Filter Controls -->
   <div class="filter-controls mb-4">
     <select class="form-select form-select-sm" [(ngModel)]="filter.status" (change)="applyFilters()">
-      <option value="">All Statuses</option>
-      <option value="Pending">Pending</option>
-      <option value="In Progress">In Progress</option>
-      <option value="Completed">Completed</option>
-    </select>
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
     <select class="form-select form-select-sm" [(ngModel)]="filter.priority" (change)="applyFilters()">
-      <option value="">All Priorities</option>
-      <option value="Low">Low</option>
-      <option value="Medium">Medium</option>
-      <option value="High">High</option>
-    </select>
+        <option value="">All Priorities</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
     <input type="date" class="form-control form-control-sm" [(ngModel)]="filter.dueDate" (change)="applyFilters()">
     <button class="btn btn-outline-secondary btn-sm" (click)="clearFilters()"><i class="bi bi-x"></i> Clear</button>
   </div>
@@ -70,7 +70,7 @@
                 <button class="btn-action-delete" (click)="deleteTask(task.id)" title="Delete Task">
                   <i class="bi bi-trash-fill"></i>
                 </button>
-              </div>
+    </div>
             </td>
           </tr>
         </ng-container>
@@ -80,14 +80,14 @@
               <div class="empty-state">
                 <i class="bi bi-check2-circle"></i>
                 <p>All tasks are cleared. Great job!</p>
-              </div>
+    </div>
             </td>
           </tr>
         </ng-template>
       </tbody>
     </table>
   </div>
-  
+
   <!-- Add/Edit Task Modal -->
   <div *ngIf="showTaskModal" class="modal-backdrop animate__animated animate__fadeIn animate__faster">
     <div class="modal-content animate__animated animate__fadeInDown animate__faster">

@@ -825,7 +825,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit, OnDestroy
         lastLogin: this.profile.lastLogin || new Date()
       };
     } else {
-      this.editProfile = { ...this.profile };
+    this.editProfile = { ...this.profile };
     }
     this.showEditProfileModal = true;
   }

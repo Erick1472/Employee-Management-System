@@ -24,7 +24,7 @@
   </div>
 
   <!-- Modern Leave Table -->
-  <div class="table-responsive">
+      <div class="table-responsive">
     <table class="modern-leave-table">
       <thead>
         <tr>
@@ -34,9 +34,9 @@
           <th>Reason</th>
           <th>Status</th>
           <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+            </tr>
+          </thead>
+          <tbody>
         <tr *ngFor="let request of filteredLeaveRequests" [ngClass]="'row-' + request.status">
           <td>
             <div class="fw-bold">{{ getEmployeeName(request.employeeId) }}</div>
@@ -51,9 +51,9 @@
               'bg-danger': request.status === 'Rejected',
               'bg-warning text-dark': request.status === 'Pending'
             }">
-              {{ request.status }}
-            </span>
-          </td>
+                  {{ request.status }}
+                </span>
+              </td>
           <td class="action-buttons">
             <ng-container *ngIf="request.status === 'Pending'">
               <button class="btn-action btn-action-approve" (click)="approveLeaveRequest(request.id)" title="Approve">
@@ -71,11 +71,11 @@
         <tr *ngIf="filteredLeaveRequests.length === 0">
           <td colspan="6" class="text-center py-5">
             <h5 class="text-muted">No leave requests found for this filter.</h5>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
   <!-- Add New Leave Request FAB -->
   <button class="fab-add" (click)="openLeaveModal()" title="Request New Leave">

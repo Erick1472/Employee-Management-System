@@ -12,10 +12,10 @@
     <button class="add-salary-btn" (click)="openSalaryModal()">
       <i class="bi bi-plus-lg me-2"></i>Add New Salary Record
     </button>
-  </div>
+    </div>
 
   <!-- Modern Salary Table -->
-  <div class="table-responsive">
+            <div class="table-responsive">
     <table class="modern-salary-table">
       <thead>
         <tr>
@@ -27,21 +27,21 @@
           <th>Month</th>
           <th>Payment Date</th>
           <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
         <tr *ngFor="let record of filteredSalaries" (click)="openSalaryModal(record)">
           <td>
             <div class="fw-bold">{{ getEmployeeName(record.employeeId) }}</div>
             <div class="text-muted small">{{ record.employeeId }} - {{ getEmployeeDepartment(record.employeeId) }}</div>
-          </td>
+                            </td>
           <td>{{ record.basicSalary | currency }}</td>
           <td>{{ record.allowances | currency }}</td>
           <td>{{ record.deductions | currency }}</td>
           <td><span class="badge-net-salary">{{ record.netSalary | currency }}</span></td>
-          <td>{{ record.month }}</td>
-          <td>{{ record.paymentDate | date:'yyyy-MM-dd' }}</td>
-          <td>
+                            <td>{{ record.month }}</td>
+                            <td>{{ record.paymentDate | date:'yyyy-MM-dd' }}</td>
+                            <td>
             <button class="btn-action-edit" (click)="$event.stopPropagation(); openSalaryModal(record)" title="Edit">
               <i class="bi bi-pencil-square"></i>
             </button>
@@ -53,11 +53,11 @@
         <tr *ngIf="filteredSalaries.length === 0">
           <td colspan="8" class="text-center py-4">
             <p class="mb-0 text-muted">No salary records found.</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
   <!-- Add/Edit Salary Modal -->
   <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1">
@@ -106,7 +106,7 @@
             </div>
           </form>
         </div>
-      </div>
+        </div>
     </div>
   </div>
   <div *ngIf="showModal" class="modal-backdrop fade show"></div>
