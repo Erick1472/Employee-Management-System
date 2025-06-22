@@ -1,0 +1,89 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" (click)="toggleAddForm()">
+            {{ showAddForm ? 'Cancel Add Employee' : 'Add New Employee' }}
+        </button>
+    </div>
+
+    <div class="card" *ngIf="showAddForm">
+        <div class="card-header text-center">
+            <h3>Add Employee</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter your First Name">
+                        <div *ngIf="addEmployeeForm.get('firstName')?.invalid && addEmployeeForm.get('firstName')?.touched" class="text-danger">
+                            First Name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <select class="form-select" id="department" formControlName="department">
+                            <option value="">--select--</option>
+                            <option *ngFor="let dept of departments" [value]="dept.departmentName">
+                                {{dept.departmentName}}
+                            </option>
+                        </select>
+                        <div *ngIf="addEmployeeForm.get('department')?.invalid && addEmployeeForm.get('department')?.touched" class="text-danger">
+                            Department is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter your Last Name">
+                        <div *ngIf="addEmployeeForm.get('lastName')?.invalid && addEmployeeForm.get('lastName')?.touched" class="text-danger">
+                            Last Name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="mobileNo" class="form-label">Mobile No</label>
+                        <input type="text" class="form-control" id="mobileNo" formControlName="mobileNo" placeholder="Enter your Mobile No">
+                        <div *ngIf="addEmployeeForm.get('mobileNo')?.invalid && addEmployeeForm.get('mobileNo')?.touched" class="text-danger">
+                            Valid Mobile No is required (10 digits).
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="emailId" class="form-label">Email ID</label>
+                        <input type="email" class="form-control" id="emailId" formControlName="emailId" placeholder="Enter your Email ID">
+                        <div *ngIf="addEmployeeForm.get('emailId')?.invalid && addEmployeeForm.get('emailId')?.touched" class="text-danger">
+                            Valid Email ID is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="dateOfJoining" class="form-label">Date of Joining</label>
+                        <input type="date" class="form-control" id="dateOfJoining" formControlName="dateOfJoining" placeholder="dd-mm-yyyy">
+                        <div *ngIf="addEmployeeForm.get('dateOfJoining')?.invalid && addEmployeeForm.get('dateOfJoining')?.touched" class="text-danger">
+                            Date of Joining is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your Password">
+                        <div *ngIf="addEmployeeForm.get('password')?.invalid && addEmployeeForm.get('password')?.touched" class="text-danger">
+                            Password is required and must be at least 6 characters.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
+                        <div *ngIf="addEmployeeForm.get('confirmPassword')?.invalid && addEmployeeForm.get('confirmPassword')?.touched || addEmployeeForm.errors?.['mismatch']" class="text-danger">
+                            Confirm Password is required and must match Password.
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" [disabled]="addEmployeeForm.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-header">
+    New Announcement
+  </div>
+  <div class="card-body">
+    <form [formGroup]="announcementForm" (ngSubmit)="createAnnouncement()">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" formControlName="title" required>
+        <div *ngIf="announcementForm.get('title')?.invalid && announcementForm.get('title')?.touched" class="text-danger">
+          Title is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea class="form-control" id="content" formControlName="content" rows="5" required></textarea>
+        <div *ngIf="announcementForm.get('content')?.invalid && announcementForm.get('content')?.touched" class="text-danger">
+          Content is required.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!announcementForm.valid">Create Announcement</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<div class="container mt-4">
+    <!-- Advanced Search/Filter Bar -->
+    <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <input type="text" class="form-control form-control-sm w-auto" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by name or head">
+        <select [(ngModel)]="filter.status" (change)="applyFilters()" class="form-select form-select-sm">
+            <option value="all">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+        <button class="btn btn-outline-secondary btn-sm ms-2" (click)="clearFilters()"><i class="bi bi-x-circle"></i> Clear</button>
+        <div class="ms-auto" *ngIf="selectedDepartments.length > 0">
+            <button class="btn btn-danger btn-sm" (click)="bulkDelete()"><i class="bi bi-trash"></i> Delete Selected</button>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end mb-3 gap-2">
+        <button class="btn btn-outline-primary" (click)="showHeadsModal = true">
+            <i class="bi bi-people"></i> View All Department Heads
+        </button>
+        <button class="btn btn-primary" (click)="toggleAddForm()">
+            <i class="bi bi-plus-circle-fill"></i> Add New Department
+        </button>
+    </div>
+
+    <!-- Card/Grid View for Departments -->
+    <div class="row g-4 mb-4 animate__animated animate__fadeIn animate__faster" *ngIf="filteredDepartments.length > 0">
+        <div class="col-md-4 col-lg-3" *ngFor="let department of filteredDepartments">
+            <div class="card department-card shadow-sm animate__animated animate__fadeInUp animate__faster" [class.selected-card]="selectedDepartments.includes(department.id)" (click)="toggleDepartmentSelection(department.id)" tabindex="0" style="cursor:pointer;">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <div class="avatar mb-2" aria-label="Department Head">
+                        <img *ngIf="department.headAvatar" [src]="department.headAvatar" class="avatar-img" alt="{{ department.head }}" />
+                        <span *ngIf="!department.headAvatar" class="avatar-initials">{{ getInitials(department.head) }}</span>
+                    </div>
+                    <h5 class="card-title mb-1">{{ department.departmentName }}</h5>
+                    <div class="text-muted small mb-2">Head: {{ department.head }}</div>
+                    <span class="badge" [ngClass]="department.status === 'Active' ? 'bg-success' : 'bg-secondary'">{{ department.status }}</span>
+                    <div class="mt-2">Employees: <strong>{{ department.totalEmployees }}</strong></div>
+                    <input type="checkbox" [checked]="selectedDepartments.includes(department.id)" (click)="$event.stopPropagation(); toggleDepartmentSelection(department.id)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table View (with sticky headers, hover, tooltips) -->
+    <div class="card" *ngIf="filteredDepartments.length > 0">
+        <div class="card-header text-center">
+            <h3>Existing Departments</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered modern-table">
+                    <thead class="table-dark sticky-header">
+                        <tr>
+                            <th scope="col">Department Name</th>
+                            <th scope="col">Head</th>
+                            <th scope="col">Total Employees</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let department of filteredDepartments" [class.selected-row]="selectedDepartments.includes(department.id)">
+                            <td>{{ department.departmentName }}</td>
+                            <td>{{ department.head }}</td>
+                            <td>{{ department.totalEmployees }}</td>
+                            <td><span class="badge" [ngClass]="department.status === 'Active' ? 'bg-success' : 'bg-secondary'">{{ department.status }}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-info me-2" (click)="editDepartment(department)" title="Edit Department"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteDepartment(department.id)" title="Delete Department"><i class="bi bi-trash-fill"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p *ngIf="!filteredDepartments || filteredDepartments.length === 0" class="text-center text-muted mt-3">
+                No departments found.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modern Empty State -->
+    <div *ngIf="!filteredDepartments || filteredDepartments.length === 0" class="empty-state text-center py-4">
+        <img src="assets/empty-department.svg" alt="No departments" width="80" class="mb-2">
+        <p class="text-muted">No departments found. Add your first department!</p>
+    </div>
+
+    <!-- Custom Toasts/Snackbars -->
+    <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+        <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+             [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+            <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+            <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal (animated) -->
+    <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showAddForm" aria-modal="true" aria-labelledby="addEditModalLabel">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEditModalLabel">{{ isEditMode ? 'Edit Department' : 'Add New Department' }}</h5>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="toggleAddForm()"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="departmentName" class="form-label">Department Name</label>
+                            <input type="text" class="form-control" id="departmentName" formControlName="departmentName" placeholder="Enter Department Name">
+                            <div *ngIf="departmentForm.get('departmentName')?.invalid && departmentForm.get('departmentName')?.touched" class="text-danger">
+                                Department Name is required.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="head" class="form-label">Department Head</label>
+                            <select class="form-select" id="head" formControlName="head">
+                                <option value="">-- Select Head --</option>
+                                <option *ngFor="let employee of employees" [value]="employee.firstName + ' ' + employee.lastName">
+                                    {{ employee.firstName }} {{ employee.lastName }}
+                                </option>
+                            </select>
+                            <div *ngIf="departmentForm.get('head')?.invalid && departmentForm.get('head')?.touched" class="text-danger">
+                                Department Head is required.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" formControlName="status">
+                                <option value="">-- Select Status --</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <div *ngIf="departmentForm.get('status')?.invalid && departmentForm.get('status')?.touched" class="text-danger">
+                                Status is required.
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success" [disabled]="departmentForm.invalid">{{ isEditMode ? 'Update Department' : 'Add Department' }}</button>
+                            <button *ngIf="isEditMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Heads Modal -->
+    <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showHeadsModal" aria-modal="true" aria-labelledby="headsModalLabel">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="headsModalLabel">All Department Heads</h5>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="showHeadsModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="departmentHeadsList.length > 0; else noHeads">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-lg-4" *ngFor="let head of departmentHeadsList">
+                                <div class="card p-3 mb-2 h-100">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <div class="avatar">
+                                            <img *ngIf="head.avatar" [src]="head.avatar" class="avatar-img" alt="{{ head.name }}" />
+                                            <span *ngIf="!head.avatar" class="avatar-initials">{{ getInitials(head.name) }}</span>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">{{ head.name }}</div>
+                                            <div class="text-muted small">{{ head.email || '' }}</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="badge bg-info me-1 mb-1" *ngFor="let dept of head.departments">{{ dept }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #noHeads>
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-person-x" style="font-size:2rem;"></i>
+                            <p>No department heads found.</p>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

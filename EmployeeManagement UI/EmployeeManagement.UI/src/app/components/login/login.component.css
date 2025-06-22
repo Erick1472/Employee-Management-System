@@ -1,0 +1,333 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent body scroll if content overflows */
+}
+
+.login-container {
+  height: 100vh; /* Make the container take up the full viewport height */
+  display: flex;
+  align-items: stretch; /* Ensure children stretch vertically to fill container */
+  justify-content: center;
+  background-color: #f8f8f8;
+  padding: 0;
+}
+
+.row.g-0 {
+  width: 100%;
+  max-width: 1100px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  height: 100%; /* Ensure row takes full height of its parent (login-container) */
+  display: flex;
+  align-items: stretch; /* Make children (col-md-6) stretch to fill row height */
+  margin: 0; /* Remove default Bootstrap row margins */
+}
+
+/* Ensure Bootstrap columns take full height inside the flex row */
+.row.g-0 > div[class*="col-"] {
+  height: 100%; /* Explicitly make Bootstrap columns fill their parent height */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Prevent columns from shrinking */
+}
+
+.image-section {
+  background-color: lightblue;
+  background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+  flex-grow: 1;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.image-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* Subtle dark overlay */
+  z-index: 1;
+}
+
+.image-section .overlay-text {
+  position: relative;
+  z-index: 2;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-section h2 {
+  font-size: 3rem;
+  margin-bottom: 0;
+  font-weight: 700;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  line-height: 1.2;
+  opacity: 0; /* Hide the text */
+  color: white;
+}
+
+.form-section {
+  background-color: #ffffff;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  height: 100%; /* Explicitly set height to 100% to ensure it fills the column */
+  min-height: 100vh; /* Ensure it takes at least 100% of viewport height on large screens */
+}
+
+.login-form {
+  width: 100%;
+  max-width: 420px;
+}
+
+.welcome-heading {
+  color: #e60000;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #555;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.form-label {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 12px 15px;
+  padding-right: 40px;
+  border: 1px solid #ddd;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  height: 48px;
+}
+
+.form-control:focus {
+  border-color: #e60000;
+  box-shadow: 0 0 0 0.25rem rgba(230, 0, 0, 0.2);
+}
+
+.form-control::placeholder {
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.password-input-group {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #555;
+}
+
+.form-check {
+  padding-left: 0;
+}
+
+.form-check-input {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin-top: 0.25em;
+}
+
+.form-check-input:checked {
+  background-color: #e60000;
+  border-color: #e60000;
+}
+
+.form-check-label {
+  color: #555;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.forgot-password-link {
+  color: #e60000;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  color: #cc0000;
+  text-decoration: underline;
+}
+
+.btn-danger {
+  background-color: #e60000;
+  border-color: #e60000;
+  padding: 14px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(230, 0, 0, 0.2);
+}
+
+.btn-danger:hover {
+  background-color: #cc0000;
+  border-color: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(230, 0, 0, 0.3);
+}
+
+.role-selection {
+  display: flex;
+  justify-content: space-around; /* Distribute buttons evenly */
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.role-selection .btn {
+  flex: 1; /* Allow buttons to take equal space */
+  margin: 0 10px; /* Add some spacing between buttons, adjusted */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px 0;
+  background-color: #f0f0f0; /* Default light grey background */
+  color: #555; /* Default dark grey text */
+  transition: all 0.3s ease;
+  height: 100px; /* Fixed height for consistency */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.role-selection .btn:hover {
+  background-color: #e6e6e6;
+  border-color: #ccc;
+  color: #333;
+}
+
+.role-selection .btn.active {
+  background-color: #e60000; /* Red for active state */
+  color: white;
+  border-color: #e60000;
+  box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3);
+}
+
+.role-selection .btn i {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+.university-logo, .copyright-text {
+  display: none; /* Hide these as they are not in the new image */
+}
+
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+  }
+
+  .login-container {
+    height: auto;
+    padding: 0;
+  }
+
+  .row.g-0 {
+    min-height: unset;
+    height: auto;
+    flex-direction: column;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .row.g-0 > div[class*="col-"] {
+    height: auto;
+  }
+
+  .image-section {
+    min-height: 250px;
+    height: auto;
+    padding: 0;
+  }
+
+  .form-section {
+    height: auto;
+    min-height: unset;
+    padding: 30px;
+  }
+
+  .role-selection {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .role-selection .btn {
+    margin: 0 5px;
+    min-width: 100px;
+    height: 90px;
+  }
+}

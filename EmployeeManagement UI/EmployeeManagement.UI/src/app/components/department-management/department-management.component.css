@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+}
+/* Department Card Styles */
+.department-card {
+  background: rgba(255,255,255,0.15);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 24px 0 rgba(31,38,135,0.10);
+  transition: box-shadow 0.2s, transform 0.2s;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1rem;
+}
+.department-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+  transform: translateY(-2px) scale(1.02);
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #495057;
+  overflow: hidden;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.avatar-initials {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #495057;
+}
+.empty-state img {
+  opacity: 0.8;
+}
+.empty-state p {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Table Enhancements */
+.modern-table thead {
+    background-color: #34495e;
+    color: white;
+}
+
+.modern-table th {
+    font-weight: 600;
+}
+
+.modern-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.modern-table tbody tr:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+/* Button Styles */
+.btn-info {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-info:hover {
+    background-color: #5a3d9a;
+    border-color: #5a3d9a;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.btn-outline-primary {
+    color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-outline-primary:hover {
+    background-color: #6f42c1;
+    color: white;
+}
+
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    background-color: #6f42c1;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-body .card {
+    transition: transform 0.2s;
+}
+
+.modal-body .card:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 767px) {
+  .department-card { padding: 1rem 0.5rem; }
+  .avatar { width: 40px; height: 40px; font-size: 1rem; }
+}

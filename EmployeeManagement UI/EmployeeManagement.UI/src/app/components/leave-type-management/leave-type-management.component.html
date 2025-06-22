@@ -1,0 +1,93 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" (click)="toggleAddForm()">
+            {{ showAddForm ? 'Cancel' : 'Add New Leave Type' }}
+        </button>
+    </div>
+
+    <div class="card mb-4" *ngIf="showAddForm">
+        <div class="card-header text-center">
+            <h3>{{ isEditMode ? 'Edit Leave Type' : 'Add New Leave Type' }}</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="leaveTypeForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Leave Type</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter Leave Type Name">
+                    <div *ngIf="leaveTypeForm.get('name')?.invalid && leaveTypeForm.get('name')?.touched" class="text-danger">
+                        Leave Type Name is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="maxDays" class="form-label">Max Days</label>
+                    <input type="number" class="form-control" id="maxDays" formControlName="maxDays" placeholder="Enter Max Days">
+                    <div *ngIf="leaveTypeForm.get('maxDays')?.invalid && leaveTypeForm.get('maxDays')?.touched" class="text-danger">
+                        Max Days is required and must be a positive number.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="Enter Description"></textarea>
+                    <div *ngIf="leaveTypeForm.get('description')?.invalid && leaveTypeForm.get('description')?.touched" class="text-danger">
+                        Description is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" formControlName="status">
+                        <option value="">-- Select Status --</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="leaveTypeForm.get('status')?.invalid && leaveTypeForm.get('status')?.touched" class="text-danger">
+                        Status is required.
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success" [disabled]="leaveTypeForm.invalid">{{ isEditMode ? 'Update' : 'Add' }}</button>
+                    <button *ngIf="isEditMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-container mat-elevation-z8">
+            <h3>Existing Leave Types</h3>
+            <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                        <tr>
+                        <th>Leave Type</th>
+                        <th>Max Days</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let leaveType of leaveTypes">
+                            <td>{{ leaveType.name }}</td>
+                            <td>{{ leaveType.maxDays }}</td>
+                            <td>{{ leaveType.description }}</td>
+                            <td>
+                              <span [ngClass]="{
+                                'badge bg-success': leaveType.status === 'Active',
+                                'badge bg-secondary': leaveType.status === 'Inactive'
+                              }">
+                                <i class="bi" [ngClass]="leaveType.status === 'Active' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+                                {{ leaveType.status }}
+                              </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info me-2" (click)="editLeaveType(leaveType)" title="Edit Leave Type"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteLeaveType(leaveType.id)" title="Delete Leave Type"><i class="bi bi-trash-fill"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p *ngIf="!leaveTypes || leaveTypes.length === 0" class="text-center text-muted mt-3">
+                No leave types found.
+            </p>
+    </div>
+</div>

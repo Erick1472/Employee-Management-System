@@ -1,0 +1,366 @@
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control,
+.form-select,
+.form-control-plaintext {
+    border-radius: 0.3rem;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.table-dark th {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #454d55;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.text-danger {
+    font-size: 0.875em;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.badge {
+    padding: 0.4em 0.6em;
+    border-radius: 0.25rem;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    display: inline-block;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+    color: #fff !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.bg-warning.text-dark {
+    color: #212529 !important;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+    color: #fff !important;
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 1050;
+  transition: box-shadow 0.2s;
+}
+.fab:hover, .fab:focus {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  background: #0d6efd;
+  color: #fff;
+}
+
+/* Sticky table headers */
+.table thead.sticky-top th {
+  position: sticky;
+  top: 56px;
+  background: #212529;
+  z-index: 2;
+}
+
+/* Row hover effect */
+.table-row-hover:hover {
+  background: #f1f3f5 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+/* Card shadow */
+.card.shadow-sm {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-radius: 1rem;
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 95vw;
+    margin: 1.75rem auto;
+  }
+}
+
+/* Responsive table font */
+@media (max-width: 576px) {
+  .table th, .table td {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+}
+
+.leave-request-container {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 16px;
+  position: relative;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background-color: #e5e7eb;
+  padding: 0.5rem;
+  border-radius: 999px;
+}
+
+.filter-tab {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background-color: transparent;
+  color: #4b5563;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-tab.active {
+  background-color: #ffffff;
+  color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.modern-leave-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(45, 55, 72, 0.07);
+}
+
+.modern-leave-table thead th {
+  background: #ffffff;
+  color: #374151;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.modern-leave-table tbody tr {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.modern-leave-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(45, 55, 72, 0.08);
+}
+
+.modern-leave-table td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Status-driven row colors */
+.row-Approved { background-color: #f0fdf4; }
+.row-Rejected { background-color: #fef2f2; }
+.row-Pending { background-color: #fffbeb; }
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-action {
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-action-approve { background-color: #22c55e; }
+.btn-action-approve:hover { background-color: #16a34a; transform: scale(1.1); }
+
+.btn-action-reject { background-color: #ef4444; }
+.btn-action-reject:hover { background-color: #dc2626; transform: scale(1.1); }
+
+.btn-action-delete { background-color: #6b7280; }
+.btn-action-delete:hover { background-color: #4b5563; transform: scale(1.1); }
+
+/* Floating Action Button */
+.fab-add {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  border: none;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.fab-add:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}

@@ -1,0 +1,206 @@
+/* General container styling */
+.leave-type-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Card styling */
+  .card {
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-header {
+    background-color: #007bff;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 15px;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  /* Form styling */
+  .form-label {
+    font-weight: 600;
+  }
+  
+  .form-control, .form-select {
+    border-radius: 10px;
+    padding: 10px;
+    transition: box-shadow 0.2s;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+  }
+  
+  /* Button styling */
+  .btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+  }
+  
+  .btn-info {
+    background-color: #6f42c1; /* Vibrant purple */
+    border: none;
+  }
+  
+  .btn-info:hover {
+    background-color: #5a3d9a;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+  }
+  
+  .btn-danger {
+    background-color: #e74c3c; /* Brighter red */
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c0392b;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+  }
+  
+  /* Table styling */
+  .table-container {
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-container h3 {
+    color: #34495e;
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #6f42c1;
+    font-size: 1.8rem;
+    display: inline-block;
+  }
+  
+  .table {
+    margin-bottom: 0;
+  }
+  
+  .table thead th {
+    background-color: #343a40;
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+  }
+  
+  .table tbody tr {
+    border-bottom: 1px solid #dee2e6; /* Row separator */
+  }
+
+  .table tbody tr:last-child {
+      border-bottom: none; /* Remove border for the last row */
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #ecf0f1; /* Light gray for zebra striping */
+  }
+
+  .table tbody tr:hover {
+    background-color: #dcdde1; /* Hover color */
+  }
+  
+  .table td, .table th {
+    vertical-align: middle;
+    padding: 15px;
+  }
+  
+  .table-bordered {
+    border: none;
+  }
+  
+  .table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+  }
+  
+  /* Status badge styling */
+  .badge {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .badge .bi {
+    margin-right: 5px;
+  }
+  
+  /* No data message */
+  .text-muted {
+    font-style: italic;
+  }
+  
+  /* Add/Edit Form Animation */
+  .card.mb-4 {
+    animation: fadeIn 0.5s;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Elevation for material design like shadow */
+  .mat-elevation-z8 {
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  }

@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header">
+    New Message
+  </div>
+  <div class="card-body">
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+      <div class="mb-3">
+        <label for="recipient" class="form-label">Recipient</label>
+        <input type="text" class="form-control" id="recipient" formControlName="recipient" required>
+        <div *ngIf="messageForm.get('recipient')?.invalid && messageForm.get('recipient')?.touched" class="text-danger">
+          Recipient is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="subject" class="form-label">Subject</label>
+        <input type="text" class="form-control" id="subject" formControlName="subject" required>
+        <div *ngIf="messageForm.get('subject')?.invalid && messageForm.get('subject')?.touched" class="text-danger">
+          Subject is required.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea class="form-control" id="content" formControlName="content" rows="5" required></textarea>
+        <div *ngIf="messageForm.get('content')?.invalid && messageForm.get('content')?.touched" class="text-danger">
+          Content is required.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Send Message</button>
+    </form>
+  </div>
+</div>

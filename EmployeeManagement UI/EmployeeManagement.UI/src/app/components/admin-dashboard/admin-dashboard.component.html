@@ -1,0 +1,1106 @@
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar -->
+  <div class="bg-dark border-right" id="sidebar-wrapper" [class.toggled]="sidebarToggled">
+    <div class="sidebar-heading text-white">Employee MS</div>
+    <div class="list-group list-group-flush">
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'dashboard'" (click)="selectSection('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'department'" (click)="selectSection('department')"><i class="bi bi-building"></i> Department <i class="bi bi-chevron-right float-end"></i></a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'leaveType'" (click)="selectSection('leaveType')"><i class="bi bi-briefcase"></i> Leave Type <i class="bi bi-chevron-right float-end"></i></a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'employee'" (click)="selectSection('employee')"><i class="bi bi-person-circle"></i> Employee <i class="bi bi-chevron-right float-end"></i></a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'salary'" (click)="selectSection('salary')"><i class="bi bi-currency-dollar"></i> Salary <i class="bi bi-chevron-right float-end"></i></a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'leaveRequests'" (click)="selectSection('leaveRequests')"><i class="bi bi-calendar-check"></i> Leave Requests <i class="bi bi-chevron-right float-end"></i></a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'attendance'" (click)="selectSection('attendance')">
+        <i class="bi bi-calendar-check"></i> Attendance
+      </a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'report'" (click)="selectSection('report')"><i class="bi bi-file-earmark-bar-graph"></i> Report <i class="bi bi-chevron-right float-end"></i></a>
+      
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'tasks'" (click)="selectSection('tasks')"><i class="bi bi-check-circle-fill"></i> Tasks</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'messages'" (click)="selectSection('messages')"><i class="bi bi-chat-dots-fill"></i> Messages</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'performance'" (click)="selectSection('performance')"><i class="bi bi-graph-up"></i> Performance</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'settings'" (click)="selectSection('settings')"><i class="bi bi-gear-fill"></i> Settings</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" [class.active]="activeSection === 'profile'" (click)="selectSection('profile')"><i class="bi bi-person-fill"></i> My Profile</a>
+      <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-dark text-white" (click)="logout($event)"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+    </div>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper" [class.toggled]="sidebarToggled">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <button class="btn btn-primary" id="menu-toggle" (click)="toggleSidebar()">
+        <i class="bi" [class.bi-list]="!sidebarToggled" [class.bi-x]="sidebarToggled"></i>
+      </button>
+
+      <marquee class="header-marquee" behavior="scroll" direction="left">Welcome to the Admin Dashboard. Monitor your organization's health, manage employees, and drive success—all in one place.</marquee>
+
+      <div class="ms-auto d-flex align-items-center">
+        <!-- User Profile Dropdown -->
+        <div class="nav-item dropdown" *ngIf="currentUser">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [src]="currentUser.avatar || 'assets/default-avatar.png'" [alt]="currentUser.name" class="rounded-circle me-2" width="32" height="32" (click)="selectSection('profile'); $event.stopPropagation();" style="cursor: pointer;">
+            Welcome Back, {{ currentUser.name }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" (click)="selectSection('profile')"><i class="bi bi-person-circle me-2"></i>My Profile</a></li>
+            <li><a class="dropdown-item" (click)="selectSection('settings')"><i class="bi bi-gear-fill me-2"></i>Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" (click)="logout($event)"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+        </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <!-- Main Content Area -->
+      <div class="main-content">
+        <!-- Modernized Dashboard Overview Section -->
+        <div *ngIf="activeSection === 'dashboard'" class="dashboard-overview container-fluid animate__animated animate__fadeIn animate__faster">
+          <!-- Welcome Hero Banner -->
+        <div class="dashboard-hero glass-card animate__animated animate__fadeInDown mb-4">
+          <div class="hero-content d-flex align-items-center gap-4 flex-wrap">
+            <!-- Animated Office Image Carousel -->
+            <div class="hero-carousel">
+              <img *ngFor="let img of heroImages; let i = index" [src]="img.url" [alt]="img.alt" class="hero-carousel-img" [class.active]="i === currentHeroImage" />
+            </div>
+            <div>
+              <h2 class="mb-2 welcome-marquee">Welcome to Your Admin Dashboard</h2>
+              <div class="accent-bar"></div>
+              <p class="lead mb-0">Monitor your organization's health, manage employees, and drive success—all in one place.</p>
+            </div>
+          </div>
+          <div class="floating-accent"></div>
+        </div>
+
+          <!-- 1. Quick Stats Cards with hover and count-up -->
+          <div class="row g-4 mb-4 justify-content-center">
+            <div class="col-xl-3 col-md-6" *ngFor="let stat of dashboardStats">
+              <div class="glass-card animate__animated animate__fadeInUp animate__faster text-center stat-card-hover" [ngClass]="stat.bg">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="stat-icon mb-2"><i class="bi" [ngClass]="stat.icon" style="font-size:2.2rem;"></i></div>
+                  <div class="text-xs fw-bold text-uppercase mb-1">{{ stat.label }}</div>
+                  <div class="h4 mb-0 fw-bold count-up" [attr.data-value]="stat.value">{{ stat.value }}</div>
+                  <small *ngIf="stat.sub">{{ stat.sub }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!-- 2. Onboarding Section (Carousel + Checklist) -->
+          <div class="row g-4 mb-4 align-items-stretch">
+          <div class="col-lg-8 mb-3">
+              <div class="glass-card p-4 d-flex flex-column align-items-center justify-content-center animate__animated animate__fadeIn animate__faster h-100">
+              <div class="w-100 d-flex align-items-center justify-content-between mb-2">
+                <span class="badge bg-info">Step {{ onboardingIndex + 1 }} of {{ onboardingSlides.length }}</span>
+                <div class="progress flex-grow-1 mx-2" style="height: 8px;">
+                  <div class="progress-bar bg-success" role="progressbar" [style.width]="((onboardingIndex+1)/onboardingSlides.length*100)+'%'" aria-valuenow="onboardingIndex+1" aria-valuemin="0" aria-valuemax="onboardingSlides.length"></div>
+                </div>
+                <span *ngIf="onboardingSlides[onboardingIndex].completed" class="badge bg-success"><i class="bi bi-check-circle"></i> Done</span>
+              </div>
+                <img [src]="onboardingSlides[onboardingIndex].img" [alt]="onboardingSlides[onboardingIndex].alt" style="width:100%;height:320px;object-fit:cover;border-radius:28px;box-shadow:0 12px 48px #0002;margin:auto;display:block;" />
+              <h4 class="mt-3 mb-1 text-center">{{ onboardingSlides[onboardingIndex].headline }}</h4>
+              <p class="lead text-center mb-2">{{ onboardingSlides[onboardingIndex].message }}</p>
+              <button class="btn btn-primary mt-2 px-4" (click)="onboardingSlides[onboardingIndex].action(); completeOnboardingStep(onboardingIndex)" [disabled]="onboardingSlides[onboardingIndex].completed">
+                {{ onboardingSlides[onboardingIndex].actionLabel }}
+              </button>
+              <div class="carousel-indicators mt-3 d-flex justify-content-center">
+                <span *ngFor="let slide of onboardingSlides; let i = index" class="carousel-dot" [class.active]="i === onboardingIndex" style="width:12px;height:12px;border-radius:50%;background:#b3b3b3;margin:0 4px;display:inline-block;cursor:pointer;transition:background 0.2s;" (click)="onboardingIndex = i"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+              <div class="glass-card p-4 animate__animated animate__fadeIn animate__faster h-100 d-flex flex-column justify-content-between">
+              <h5 class="mb-3">Onboarding Checklist</h5>
+              <ul class="list-group list-group-flush mb-3">
+                <li *ngFor="let item of onboardingChecklist; let i = index" class="list-group-item d-flex align-items-center justify-content-between">
+                  <span>
+                    <input type="checkbox" class="form-check-input me-2" [(ngModel)]="item.completed" (change)="completeOnboardingStep(i)">
+                    {{ item.label }}
+                  </span>
+                  <button class="btn btn-sm btn-outline-primary ms-2" (click)="item.action()" [disabled]="item.completed">Go</button>
+                </li>
+              </ul>
+              <div class="progress mb-2" style="height: 8px;">
+                  <div class="progress-bar bg-success" role="progressbar" [style.width]="onboardingProgressPercent + '%'" [attr.aria-valuenow]="completedOnboardingSteps" [attr.aria-valuemin]="0" [attr.aria-valuemax]="totalOnboardingSteps"></div>
+              </div>
+                <div class="text-center small text-muted">{{ completedOnboardingSteps }} of {{ totalOnboardingSteps }} steps completed</div>
+            </div>
+          </div>
+        </div>
+
+          <!-- 3. Quick Action Buttons with hover -->
+          <div class="row mb-4 justify-content-center">
+            <div class="col-auto d-flex flex-wrap gap-3 justify-content-center">
+              <button class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('employee')"><i class="bi bi-person-plus"></i> Add Employee</button>
+              <button class="btn btn-info btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('report')"><i class="bi bi-bar-chart-fill"></i> View Reports</button>
+              <button class="btn btn-success btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('leaveRequests')"><i class="bi bi-person-check-fill"></i> Approve Leave</button>
+              <button class="btn btn-warning btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('attendance')"><i class="bi bi-clipboard-check-fill"></i> Attendance</button>
+          </div>
+        </div>
+
+          <!-- 4. Dashboard Highlights Row -->
+          <div class="row g-4 mb-4">
+            <!-- Top Performer Spotlight -->
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-4 h-100 d-flex flex-column align-items-center justify-content-center text-center animate__animated animate__fadeIn animate__faster">
+                <div *ngIf="topPerformers && topPerformers.length > 0; else noPerformer">
+                  <img src="assets/default-avatar.png" alt="Top Performer" class="mb-2" style="width:72px;height:72px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #0001;">
+                  <h6 class="fw-bold mb-1">{{ topPerformers[0].name }}</h6>
+                  <div class="text-muted mb-1">{{ topPerformers[0].position }}</div>
+                  <div class="text-muted small">{{ topPerformers[0].department }}</div>
+                  <span class="badge bg-success">Top Performer</span>
+                  </div>
+                <ng-template #noPerformer>
+                  <div class="text-muted">No top performer yet.</div>
+                </ng-template>
+                </div>
+              </div>
+            <!-- Company Highlight -->
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-4 h-100 d-flex flex-column align-items-center justify-content-center text-center animate__animated animate__fadeIn animate__faster">
+                <img *ngIf="companyLogoUrl" [src]="companyLogoUrl" alt="Company Logo" style="width:64px;height:64px;border-radius:12px;object-fit:cover;box-shadow:0 2px 12px #0001;" class="mb-2">
+                <h6 class="fw-bold mb-1">{{ settings.companyName || 'Your Company' }}</h6>
+                <div class="text-muted mb-2">Empowering teams to achieve more.</div>
+                <div class="small fst-italic">"Great things in business are never done by one person. They're done by a team of people."</div>
+            </div>
+          </div>
+            <!-- Pending Tasks Summary -->
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-4 h-100 d-flex flex-column justify-content-center animate__animated animate__fadeIn animate__faster">
+                <h6 class="fw-bold mb-2"><i class="bi bi-list-task me-1"></i>Pending Tasks</h6>
+                <div *ngIf="tasks && tasks.length > 0; else allCaughtUp">
+                  <ul class="list-unstyled mb-0">
+                    <li *ngFor="let task of tasks.slice(0,3)">
+                      <span class="fw-semibold">{{ task.title || 'Task' }}</span>
+                      <span *ngIf="task.status" class="badge bg-secondary ms-2">{{ task.status }}</span>
+                    </li>
+                  </ul>
+                  <div class="text-muted small mt-2">+{{ tasks.length - 3 }} more</div>
+                </div>
+                <ng-template #allCaughtUp>
+                  <div class="text-success">You're all caught up!</div>
+                </ng-template>
+              </div>
+            </div>
+            <!-- Next Steps Widget -->
+            <div class="col-lg-3 col-md-6">
+              <div class="glass-card p-4 h-100 d-flex flex-column align-items-center justify-content-center text-center animate__animated animate__fadeIn animate__faster">
+                <h6 class="fw-bold mb-2"><i class="bi bi-lightbulb me-1"></i>Next Steps</h6>
+                <div *ngIf="tasks && tasks.length === 0">
+                  <div class="mb-2">Add your first employee or set up a department to get started!</div>
+                  <button class="btn btn-primary btn-sm mb-1" (click)="selectSection('employee')"><i class="bi bi-person-plus"></i> Add Employee</button>
+                  <button class="btn btn-info btn-sm" (click)="selectSection('department')"><i class="bi bi-building"></i> Set Up Department</button>
+                </div>
+                <div *ngIf="tasks && tasks.length > 0">
+                  <div class="mb-2">Review your pending tasks or check reports for insights.</div>
+                  <button class="btn btn-success btn-sm mb-1" (click)="selectSection('tasks')"><i class="bi bi-list-task"></i> View Tasks</button>
+                  <button class="btn btn-info btn-sm" (click)="selectSection('report')"><i class="bi bi-bar-chart-fill"></i> View Reports</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Custom Toasts/Snackbars -->
+          <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+            <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+                 [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+              <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+              <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+            </div>
+          </div>
+
+          <!-- 6. Celebration Animation -->
+          <div *ngIf="showCelebration" class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="z-index: 2000; background: rgba(255,255,255,0.85);">
+            <div class="text-center animate__animated animate__fadeInDown animate__faster">
+              <ng-lottie [options]="noNotificationsLottieOptions" style="width:180px;height:180px;margin:auto;"></ng-lottie>
+              <h2 class="mt-3 mb-2">🎉 Onboarding Complete!</h2>
+              <p class="lead mb-3">You're ready to manage your team like a pro.</p>
+              <button class="btn btn-success px-4" (click)="showCelebration = false">Let's Go!</button>
+            </div>
+          </div>
+        </div>
+        <!-- End Modernized Dashboard Overview Section -->
+
+        <!-- Employee Management -->
+        <div *ngIf="activeSection === 'employee'" class="section-content">
+          <h1 class="mt-4">Employee Management</h1>
+          <div class="card mb-4">
+            <div class="card-header">
+              <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-people me-1"></i> Employees</span>
+                <button class="btn btn-primary btn-sm" (click)="showAddEmployeeForm = !showAddEmployeeForm">
+                  {{ showAddEmployeeForm ? 'Hide Form' : 'Add New Employee' }}
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div *ngIf="showAddEmployeeForm">
+                <app-add-employee></app-add-employee>
+              </div>
+              <div *ngIf="!showAddEmployeeForm">
+                <app-employees-list></app-employees-list>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Department Management -->
+        <div *ngIf="activeSection === 'department'" class="section-content">
+          <app-department-management></app-department-management>
+        </div>
+
+        <!-- Leave Type Management -->
+        <div *ngIf="activeSection === 'leaveType'" class="section-content">
+          <app-leave-type-management></app-leave-type-management>
+        </div>
+
+        <!-- Salary Management -->
+        <div *ngIf="activeSection === 'salary'" class="section-content">
+          <app-salary-management></app-salary-management>
+        </div>
+
+        <!-- Leave Request Management -->
+        <div *ngIf="activeSection === 'leaveRequests'" class="section-content">
+          <app-leave-request-management></app-leave-request-management>
+        </div>
+
+        <!-- Task Management -->
+        <div *ngIf="activeSection === 'tasks'" class="section-content">
+          <app-task-management></app-task-management>
+        </div>
+
+        <!-- Reports -->
+        <div *ngIf="activeSection === 'report'" class="section-content">
+          <h1 class="mt-4">Reports & Analytics</h1>
+          <div class="row">
+            <div class="col-xl-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <i class="bi bi-file-earmark-bar-graph me-1"></i>
+                  Generate Reports
+                </div>
+                <div class="card-body">
+                  <div class="list-group">
+                    <button class="list-group-item list-group-item-action" (click)="generateReport('attendance')">
+                      <i class="bi bi-calendar-check me-2"></i>Attendance Report
+                    </button>
+                    <button class="list-group-item list-group-item-action" (click)="generateReport('leave')">
+                      <i class="bi bi-calendar-x me-2"></i>Leave Summary Report
+                    </button>
+                    <button class="list-group-item list-group-item-action" (click)="generateReport('salary')">
+                      <i class="bi bi-cash-stack me-2"></i>Salary Summary Report
+                    </button>
+                    <button class="list-group-item list-group-item-action" (click)="generateReport('department')">
+                      <i class="bi bi-building me-2"></i>Department Performance Report
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <i class="bi bi-graph-up me-1"></i>
+                  Analytics Dashboard
+                </div>
+                <div class="card-body">
+                  <!-- Remove chart-related blocks in Analytics Dashboard -->
+                  <!--
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <div class="card bg-light">
+                        <div class="card-body">
+                          <h6 class="card-title">Leave Trends</h6>
+                          <canvas id="leaveTrendsChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <div class="card bg-light">
+                        <div class="card-body">
+                          <h6 class="card-title">Department Distribution</h6>
+                          <canvas id="departmentDistributionChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Report Table -->
+          <div *ngIf="reportType === 'salary'">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4>Salary Summary Report</h4>
+              <button class="btn btn-outline-primary btn-sm" (click)="exportReportToCSV()">Export to CSV</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="table-dark sticky-header">
+                  <tr>
+                    <th>Employee</th>
+                    <th>Emp ID</th>
+                    <th>Department</th>
+                    <th>Month</th>
+                    <th>Net Salary</th>
+                    <th>Payment Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let record of reportData">
+                    <td>{{ record.employee?.firstName }} {{ record.employee?.lastName }}</td>
+                    <td>{{ record.employee?.empId }}</td>
+                    <td>{{ record.employee?.department }}</td>
+                    <td>{{ record.month }}</td>
+                    <td><span class="badge bg-info"><i class="bi bi-cash-stack"></i> {{ record.netSalary | currency:'USD':'symbol':'1.2-2' }}</span></td>
+                    <td>{{ record.paymentDate | date:'yyyy-MM-dd' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Scaffold for other reports -->
+          <div *ngIf="reportType === 'attendance'">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4>Attendance Report</h4>
+              <button class="btn btn-outline-primary btn-sm" (click)="exportReportToCSV()">Export to CSV</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="table-dark sticky-header">
+                  <tr>
+                    <th>Employee</th>
+                    <th>Emp ID</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let record of reportData">
+                    <td>{{ record.employee?.firstName }} {{ record.employee?.lastName }}</td>
+                    <td>{{ record.employee?.empId }}</td>
+                    <td>{{ record.employee?.department }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>
+                      <ng-container *ngIf="record.attendance">
+                        <span *ngIf="record.attendance.isPresent" class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Present</span>
+                        <span *ngIf="!record.attendance.isPresent" class="badge bg-danger"><i class="bi bi-x-circle-fill"></i> Absent</span>
+                      </ng-container>
+                      <ng-container *ngIf="!record.attendance">
+                        <span class="text-muted">-</span>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="reportType === 'leave'">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4>Leave Summary Report</h4>
+              <button class="btn btn-outline-primary btn-sm" (click)="exportReportToCSV()">Export to CSV</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="table-dark sticky-header">
+                  <tr>
+                    <th>Employee</th>
+                    <th>Emp ID</th>
+                    <th>Department</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Days</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let record of reportData">
+                    <td>{{ record.employee?.firstName }} {{ record.employee?.lastName }}</td>
+                    <td>{{ record.employee?.empId }}</td>
+                    <td>{{ record.employee?.department }}</td>
+                    <td>{{ record.leaveType }}</td>
+                    <td>{{ record.startDate }}</td>
+                    <td>{{ record.endDate }}</td>
+                    <td>{{ record.days }}</td>
+                    <td>
+                      <ng-container *ngIf="record.attendance">
+                        <span *ngIf="record.attendance.isPresent" class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Present</span>
+                        <span *ngIf="!record.attendance.isPresent" class="badge bg-danger"><i class="bi bi-x-circle-fill"></i> Absent</span>
+                      </ng-container>
+                      <ng-container *ngIf="!record.attendance">
+                        <span class="text-muted">-</span>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="reportType === 'department'">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4>Department Performance Report</h4>
+              <button class="btn btn-outline-primary btn-sm" (click)="exportReportToCSV()">Export to CSV</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="table-dark sticky-header">
+                  <tr>
+                    <th>Department</th>
+                    <th>Total Employees</th>
+                    <th>Avg Salary</th>
+                    <th>Avg Attendance</th>
+                    <th>Total Leaves</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let record of reportData">
+                    <td>{{ record.department }}</td>
+                    <td>{{ record.totalEmployees }}</td>
+                    <td>{{ record.avgSalary | currency:'USD':'symbol':'1.2-2' }}</td>
+                    <td>{{ record.avgAttendance }}%</td>
+                    <td>{{ record.totalLeaves }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div *ngIf="activeSection === 'messages'" class="section-content">
+          <h1 class="mt-4">Messages & Announcements</h1>
+          <div class="messages-announcements-section">
+            <!-- Messages Card -->
+            <div class="messages-card">
+              <div class="card-header">
+                <span><i class="bi bi-chat-dots"></i> Messages</span>
+                <button class="btn btn-primary new-btn" (click)="showNewMessageForm = !showNewMessageForm">
+                  <i class="bi bi-plus-circle"></i> New Message
+                </button>
+              </div>
+              <div *ngIf="showNewMessageForm" class="new-message-form">
+                <form (ngSubmit)="sendMessage()">
+                  <label>Recipient</label>
+                  <select [(ngModel)]="newMessage.receiver" name="receiver" required class="form-select mb-2">
+                    <option value="all">All Employees (Announcement)</option>
+                    <option *ngFor="let emp of employees" [value]="emp.emailId">{{ emp.firstName }} {{ emp.lastName }} ({{ emp.emailId }})</option>
+                  </select>
+                  <label>Subject</label>
+                  <input type="text" [(ngModel)]="newMessage.subject" name="subject" required>
+                  <label>Content</label>
+                  <textarea [(ngModel)]="newMessage.content" name="content" rows="3" required></textarea>
+                  <button class="btn btn-primary" type="submit" [disabled]="sendingMessage">
+                    <span *ngIf="sendingMessage" class="spinner-border spinner-border-sm me-1"></span>
+                    {{ sendingMessage ? 'Sending...' : 'Send' }}
+                  </button>
+                </form>
+              </div>
+              <div class="messages-inbox">
+                <input type="text" class="form-control mb-2" placeholder="Search messages..." [(ngModel)]="messageSearch">
+                <div *ngFor="let msg of filteredMessages()" class="message-item" [class.unread]="!msg.read">
+                  <div>
+                    <div><strong>{{ msg.sender }}</strong> <span *ngIf="!msg.read" class="badge bg-info">Unread</span></div>
+                    <div>{{ msg.subject }}</div>
+                    <div style="font-size:0.92rem;color:#888;">{{ msg.time | date:'short' }}</div>
+                  </div>
+                  <div class="message-actions">
+                    <button class="btn-action" (click)="replyToMessage(msg)"><i class="bi bi-reply"></i></button>
+                    <button class="btn-action" (click)="markAsRead(msg)"><i class="bi bi-envelope-open"></i></button>
+                    <button class="btn-action" (click)="deleteMessage(msg)"><i class="bi bi-trash"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Announcements Card -->
+            <div class="announcements-card">
+              <div class="card-header">
+                <span><i class="bi bi-megaphone"></i> Announcements</span>
+                <button class="btn btn-primary new-btn" (click)="showNewAnnouncementForm = !showNewAnnouncementForm">
+                  <i class="bi bi-plus-circle"></i> New Announcement
+                </button>
+              </div>
+              <div *ngIf="showNewAnnouncementForm" class="new-announcement-form">
+                <form (ngSubmit)="createAnnouncement(newAnnouncement)">
+                  <label>Title</label>
+                  <input type="text" [(ngModel)]="newAnnouncement.title" name="title" required>
+                  <label>Content</label>
+                  <textarea [(ngModel)]="newAnnouncement.content" name="content" rows="3" required></textarea>
+                  <button class="btn btn-primary" type="submit" [disabled]="sendingAnnouncement">
+                    <span *ngIf="sendingAnnouncement" class="spinner-border spinner-border-sm me-1"></span>
+                    {{ sendingAnnouncement ? 'Sending...' : 'Create Announcement' }}
+                  </button>
+                </form>
+              </div>
+              <div class="announcements-list">
+                <input type="text" class="form-control mb-2" placeholder="Search announcements..." [(ngModel)]="announcementSearch">
+                <div *ngFor="let ann of filteredAnnouncements()" class="announcement-item">
+                  <div>
+                    <div><strong>{{ ann.title }}</strong></div>
+                    <div style="font-size:0.92rem;color:#888;">{{ ann.date | date:'short' }}</div>
+                    <div>{{ ann.content }}</div>
+                  </div>
+                  <div class="announcement-actions">
+                    <button class="btn-action" (click)="editAnnouncement(ann)"><i class="bi bi-pencil"></i></button>
+                    <button class="btn-action" (click)="deleteAnnouncement(ann)"><i class="bi bi-trash"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance -->
+        <div *ngIf="activeSection === 'performance'" class="section-content">
+          <h1 class="mt-4">Performance Management</h1>
+          <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+            <select [(ngModel)]="performanceFilter.department" (change)="applyPerformanceFilters()" class="form-select form-select-sm">
+              <option value="all">All Departments</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+            </select>
+            <select [(ngModel)]="performanceFilter.period" (change)="applyPerformanceFilters()" class="form-select form-select-sm ms-2">
+              <option value="all">All Time</option>
+              <option value="month">This Month</option>
+              <option value="quarter">This Quarter</option>
+              <option value="year">This Year</option>
+            </select>
+            <select [(ngModel)]="performanceFilter.type" (change)="applyPerformanceFilters()" class="form-select form-select-sm ms-2">
+              <option value="all">All Types</option>
+              <option value="KPI">KPI</option>
+              <option value="Review">Review</option>
+              <option value="Goal">Goal</option>
+            </select>
+            <button class="btn btn-outline-primary btn-sm ms-2" (click)="exportPerformanceToCSV()"><i class="bi bi-download"></i> Export CSV</button>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+                <div class="card-body">
+                  <h5 class="card-title">Avg Attendance</h5>
+                  <div class="display-5 fw-bold text-success">{{ performanceSummary?.avgAttendance || 0 }}%</div>
+                  <div class="text-muted">Department Avg Attendance</div>
+                </div>
+              </div>
+              <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+                <div class="card-body">
+                  <h5 class="card-title">Tasks Completed</h5>
+                  <div class="display-5 fw-bold text-info">{{ performanceSummary?.tasksCompleted || 0 }}</div>
+                  <div class="text-muted">Completed Tasks</div>
+                </div>
+              </div>
+              <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+                <div class="card-body">
+                  <h5 class="card-title">Recognitions</h5>
+                  <div class="display-5 fw-bold text-warning">{{ performanceSummary?.recognitions || 0 }}</div>
+                  <div class="text-muted">Awards & Recognitions</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card shadow-sm animate__animated animate__fadeInRight animate__faster">
+                <div class="card-body">
+                  <h5 class="card-title">Performance Feed</h5>
+                  <div *ngIf="filteredPerformanceFeed && filteredPerformanceFeed.length > 0">
+                    <ul class="timeline list-unstyled">
+                      <li *ngFor="let event of filteredPerformanceFeed" class="mb-3 d-flex align-items-center animate__animated animate__fadeInLeft animate__faster" (click)="openPerformanceDetailModal(event)" style="cursor:pointer;">
+                        <span class="badge me-2 fs-6" [ngClass]="'bg-' + event.badgeColor"><i class="bi" [ngClass]="event.icon"></i></span>
+                        <strong>{{ event.employeeName }}</strong>: {{ event.description }}
+                        <span class="text-muted small ms-2">{{ event.date | date:'short' }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf="!filteredPerformanceFeed || filteredPerformanceFeed.length === 0" class="text-muted text-center my-4">
+                    No performance events yet.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Performance Detail Modal -->
+          <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showPerformanceDetailModal" aria-modal="true" aria-labelledby="performanceDetailModalLabel">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+              <div class="modal-content glass-modal">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="performanceDetailModalLabel">Performance Detail</h5>
+                  <button type="button" class="btn-close" aria-label="Close" (click)="closePerformanceDetailModal()"></button>
+                </div>
+                <div class="modal-body">
+                  <div *ngIf="selectedPerformanceEvent">
+                    <div><strong>Employee:</strong> {{ selectedPerformanceEvent.employeeName }}</div>
+                    <div><strong>Type:</strong> {{ selectedPerformanceEvent.type }}</div>
+                    <div><strong>Description:</strong> {{ selectedPerformanceEvent.description }}</div>
+                    <div><strong>Date:</strong> {{ selectedPerformanceEvent.date | date:'fullDate' }}</div>
+                    <div *ngIf="selectedPerformanceEvent.feedback"><strong>Feedback:</strong> {{ selectedPerformanceEvent.feedback }}</div>
+                    <div *ngIf="selectedPerformanceEvent.manager"><strong>Manager:</strong> {{ selectedPerformanceEvent.manager }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Toast placeholder for feedback -->
+          <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+            <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+                 [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+              <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+              <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div *ngIf="activeSection === 'settings'" class="section-content">
+          <h1 class="mt-4 mb-3">System Settings</h1>
+          <div class="settings-section">
+            <!-- General Settings -->
+            <div class="settings-card">
+              <div class="card-header"><i class="bi bi-gear"></i> General Settings</div>
+              <form (ngSubmit)="saveGeneralSettings()" #generalForm="ngForm">
+                <div class="mb-3">
+                  <label for="companyName" class="form-label">Company Name</label>
+                  <input id="companyName" type="text" [(ngModel)]="settings.companyName" name="companyName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="companyEmail" class="form-label">Email</label>
+                  <input id="companyEmail" type="email" [(ngModel)]="settings.email" name="companyEmail" class="form-control" required>
+                </div>
+                <div class="mb-3 d-flex align-items-center justify-content-between">
+                  <label class="form-label mb-0">Theme</label>
+                  <div class="form-switch">
+                    <input class="form-check-input" type="checkbox" id="themeSwitch" [checked]="isDarkTheme" (change)="toggleTheme()">
+                    <label class="form-check-label ms-2" for="themeSwitch">{{ isDarkTheme ? 'Dark' : 'Light' }}</label>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="companyLogo" class="form-label">Company Logo</label>
+                  <input id="companyLogo" type="file" (change)="onLogoSelected($event)" accept="image/*" class="form-control">
+                  <div *ngIf="companyLogoUrl" class="mt-2">
+                    <img [src]="companyLogoUrl" alt="Logo" style="max-width: 80px; border-radius: 8px; box-shadow: 0 2px 8px #2563eb22;">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Save Changes</button>
+              </form>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="settings-card">
+              <div class="card-header"><i class="bi bi-person-circle"></i> Profile</div>
+              <form (ngSubmit)="saveProfile()" #profileForm="ngForm">
+                <div class="mb-3 text-center">
+                  <img [src]="profile.avatar || 'assets/default-avatar.png'" class="profile-picture mb-2" alt="Profile Picture" style="width: 80px; height: 80px;">
+                  <input type="file" (change)="onAvatarSelected($event)" accept="image/*" class="form-control form-control-sm mt-1">
+                </div>
+                <div class="mb-3">
+                  <label for="adminName" class="form-label">Name</label>
+                  <input id="adminName" type="text" [(ngModel)]="profile.name" name="adminName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="adminEmail" class="form-label">Email</label>
+                  <input id="adminEmail" type="email" [(ngModel)]="profile.email" name="adminEmail" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="adminPhone" class="form-label">Phone</label>
+                  <input id="adminPhone" type="text" [(ngModel)]="profile.phone" name="adminPhone" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Last Login</label>
+                  <input type="text" [value]="profile.lastLogin | date:'short'" class="form-control" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Save Profile</button>
+              </form>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="settings-card">
+              <div class="card-header"><i class="bi bi-shield-lock"></i> Security</div>
+              <form (ngSubmit)="updatePassword()" #securityForm="ngForm">
+                <div class="mb-3">
+                  <label for="currentPassword" class="form-label">Current Password</label>
+                  <input id="currentPassword" type="password" [(ngModel)]="security.currentPassword" name="currentPassword" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="newPassword" class="form-label">New Password</label>
+                  <input id="newPassword" type="password" [(ngModel)]="security.newPassword" name="newPassword" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                  <input id="confirmPassword" type="password" [(ngModel)]="security.confirmPassword" name="confirmPassword" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Recent Logins</label>
+                  <ul class="list-group list-group-flush">
+                    <li *ngFor="let login of recentLogins" class="list-group-item">{{ login | date:'short' }}</li>
+                  </ul>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Update Password</button>
+              </form>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="settings-card">
+              <div class="card-header"><i class="bi bi-bell"></i> Notification Preferences</div>
+              <form (ngSubmit)="saveNotificationPrefs()" #notifForm="ngForm">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="notifyEmail" [(ngModel)]="notifyEmail" name="notifyEmail">
+                  <label class="form-check-label" for="notifyEmail">Email Notifications</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="notifySMS" [(ngModel)]="notifySMS" name="notifySMS">
+                  <label class="form-check-label" for="notifySMS">SMS Notifications</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="notifyInApp" [(ngModel)]="notifyInApp" name="notifyInApp">
+                  <label class="form-check-label" for="notifyInApp">In-app Notifications</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Save Preferences</button>
+              </form>
+            </div>
+
+            <!-- Data & System -->
+            <div class="settings-card">
+              <div class="card-header"><i class="bi bi-database"></i> Data & System</div>
+              <form>
+                <button type="button" class="btn btn-outline-primary w-100 mb-2" (click)="backupData()">Backup Data</button>
+                <button type="button" class="btn btn-outline-secondary w-100 mb-2" (click)="exportAuditLog()">Download Audit Log</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <div *ngIf="activeSection === 'profile'" class="section-content">
+          <div class="profile-page-modern container-fluid animate__animated animate__fadeIn animate__faster">
+            <div class="row justify-content-center">
+              <div class="col-lg-8 col-xl-6">
+                <!-- Profile Header Card -->
+                <div class="glass-card p-4 mb-4 text-center">
+                  <div class="profile-avatar-container mb-3">
+                    <img [src]="profile.avatar || 'assets/default-avatar.png'" class="profile-picture-large" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                    <div class="profile-status-badge">
+                      <i class="bi bi-circle-fill text-success"></i>
+                    </div>
+                  </div>
+                  <h2 class="mb-2 fw-bold text-gradient">{{ profile.name }}</h2>
+                  <div class="mb-3 text-muted fs-5">{{ profile.position }}</div>
+                  <div class="mb-2 text-primary fw-semibold">{{ profile.department }}</div>
+                  <div class="profile-contact-info mb-4">
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                      <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                      <span>{{ profile.email }}</span>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                      <i class="bi bi-telephone-fill me-2 text-success"></i>
+                      <span>{{ profile.phone }}</span>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center text-secondary">
+                      <i class="bi bi-clock-history me-2"></i>
+                      <span>Last Login: {{ profile.lastLogin | date:'medium' }}</span>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm" (click)="openEditProfileModal()">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                  </button>
+                </div>
+
+                <!-- Profile Stats Cards -->
+                <div class="row g-3 mb-4">
+                  <div class="col-md-4">
+                    <div class="glass-card p-3 text-center stat-card-hover">
+                      <div class="stat-icon mb-2">
+                        <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                      </div>
+                      <div class="fw-bold">Active Days</div>
+                      <div class="text-muted">Last 30 days</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="glass-card p-3 text-center stat-card-hover">
+                      <div class="stat-icon mb-2">
+                        <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
+                      </div>
+                      <div class="fw-bold">Team Size</div>
+                      <div class="text-muted">{{ totalEmployees }} employees</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="glass-card p-3 text-center stat-card-hover">
+                      <div class="stat-icon mb-2">
+                        <i class="bi bi-trophy text-warning" style="font-size: 2rem;"></i>
+                      </div>
+                      <div class="fw-bold">Performance</div>
+                      <div class="text-muted">Excellent</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass-card p-4">
+                  <h5 class="mb-3 fw-bold"><i class="bi bi-lightning-charge me-2 text-primary"></i>Quick Actions</h5>
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <button class="btn btn-outline-primary w-100 rounded-pill" (click)="selectSection('settings')">
+                        <i class="bi bi-gear me-2"></i>Settings
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-outline-success w-100 rounded-pill" (click)="selectSection('dashboard')">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-outline-info w-100 rounded-pill" (click)="selectSection('report')">
+                        <i class="bi bi-bar-chart me-2"></i>Reports
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-outline-warning w-100 rounded-pill" (click)="selectSection('attendance')">
+                        <i class="bi bi-calendar-check me-2"></i>Attendance
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Edit Profile Modal -->
+          <div class="modal fade animate__animated animate__fadeInDown animate__faster" tabindex="-1" [ngClass]="{'show d-block': showEditProfileModal}" *ngIf="showEditProfileModal">
+            <div class="modal-dialog modal-dialog-centered animate__animated animate__slideInUp animate__faster">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Profile</h5>
+                  <button type="button" class="btn-close" (click)="showEditProfileModal = false"></button>
+                </div>
+                <form (ngSubmit)="saveProfile()" #editProfileForm="ngForm">
+                  <div class="modal-body">
+                    <div class="mb-3 text-center">
+                      <img [src]="editProfile.avatar || 'assets/default-avatar.png'" class="profile-picture mb-2" alt="Profile Picture" style="width: 80px; height: 80px;">
+                      <input type="file" (change)="onEditAvatarSelected($event)" accept="image/*" class="form-control form-control-sm mt-1">
+                    </div>
+                    <div class="mb-3">
+                      <label for="editName" class="form-label">Name</label>
+                      <input id="editName" type="text" [(ngModel)]="editProfile.name" name="editName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="editEmail" class="form-label">Email</label>
+                      <input id="editEmail" type="email" [(ngModel)]="editProfile.email" name="editEmail" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="editPhone" class="form-label">Phone</label>
+                      <input id="editPhone" type="text" [(ngModel)]="editProfile.phone" name="editPhone" class="form-control">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="showEditProfileModal = false">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Attendance Management Section -->
+        <div *ngIf="activeSection === 'attendance'" class="dashboard-section attendance-section">
+          <h2 class="section-title">Attendance Management</h2>
+          <div class="attendance-table mt-4">
+            <h4 class="section-subtitle">Today's Attendance</h4>
+            <!-- Search and Quick Actions -->
+            <div class="d-flex flex-wrap align-items-center mb-3 gap-3">
+              <input type="text" class="form-control" style="max-width: 260px;" placeholder="Search employee by name or ID..." [(ngModel)]="attendanceSearch" (input)="filterAttendanceTableRows()">
+              <button class="btn btn-success btn-sm" (click)="markAllPresent()"><i class="bi bi-check-circle"></i> Mark All Present</button>
+              <button class="btn btn-danger btn-sm" (click)="markAllAbsent()"><i class="bi bi-x-circle"></i> Mark All Absent</button>
+            </div>
+            <div class="table-responsive modern-table-responsive">
+              <table class="table table-striped table-hover modern-table">
+                <thead class="sticky-header bg-light" style="position: sticky; top: 0; z-index: 2;">
+                  <tr>
+                    <th>Employee Name</th>
+                    <th>Employee ID</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of filteredAttendanceTableRows" [ngClass]="{
+                    'row-present row-hover': row.attendance && row.attendance.isPresent && !row.attendance.isLate,
+                    'row-absent row-hover': row.attendance && !row.attendance.isPresent,
+                    'row-late row-hover': row.attendance && row.attendance.isPresent && row.attendance.isLate,
+                    'row-unmarked row-hover': !row.attendance
+                  }">
+                    <td>{{ row.employee.firstName }} {{ row.employee.lastName }}</td>
+                    <td>{{ row.employee.empId }}</td>
+                    <td class="d-flex gap-2">
+                      <button class="btn btn-present btn-sm" (click)="markPresent(row.employee)" [disabled]="isMarkingAttendance[row.employee.empId] || (row.attendance && row.attendance.isPresent && !row.attendance.isLate)">
+                        <i class="bi bi-check-circle"></i> Present
+                        </button>
+                      <button class="btn btn-late btn-sm" (click)="markLate(row.employee)" [disabled]="isMarkingAttendance[row.employee.empId] || (row.attendance && row.attendance.isLate)">
+                        <i class="bi bi-clock-history"></i> Late
+                        </button>
+                      <button class="btn btn-absent btn-sm" (click)="markAbsent(row.employee)" [disabled]="isMarkingAttendance[row.employee.empId] || (row.attendance && !row.attendance.isPresent)">
+                        <i class="bi bi-x-circle"></i> Absent
+                      </button>
+                    </td>
+                    <td>
+                      <ng-container *ngIf="row.attendance">
+                        <span *ngIf="row.attendance.isPresent && !row.attendance.isLate" class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Present</span>
+                        <span *ngIf="row.attendance.isPresent && row.attendance.isLate" class="badge bg-warning text-dark"><i class="bi bi-clock-history"></i> Late</span>
+                        <span *ngIf="!row.attendance.isPresent" class="badge bg-danger"><i class="bi bi-x-circle-fill"></i> Absent</span>
+                      </ng-container>
+                      <ng-container *ngIf="!row.attendance">
+                        <span class="badge bg-secondary">Not Marked</span>
+                      </ng-container>
+                    </td>
+                  </tr>
+                  <tr *ngIf="filteredAttendanceTableRows.length === 0">
+                    <td colspan="4" class="text-center">No employees found.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Edit Attendance Modal -->
+          <div class="modal" tabindex="-1" [ngClass]="{'show d-block': showEditAttendanceModal}" *ngIf="showEditAttendanceModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Attendance</h5>
+                  <button type="button" class="btn-close" (click)="showEditAttendanceModal = false"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <label>Status</label>
+                      <select class="form-select" [(ngModel)]="markAttendanceForm.isPresent" name="editIsPresent">
+                        <option [ngValue]="true">Present</option>
+                        <option [ngValue]="false">Absent</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label>Late</label>
+                      <select class="form-select" [(ngModel)]="markAttendanceForm.isLate" name="editIsLate">
+                        <option [ngValue]="false">No</option>
+                        <option [ngValue]="true">Yes</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label>Check-in Time</label>
+                      <input type="time" class="form-control" [(ngModel)]="markAttendanceForm.checkInTime" name="editCheckInTime">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="showEditAttendanceModal = false">Cancel</button>
+                  <button type="button" class="btn btn-primary" (click)="editAttendance()">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promote Employee Modal -->
+        <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showPromoteEmployeeModal" aria-modal="true" aria-labelledby="promoteEmployeeModalLabel">
+          <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content glass-modal">
+              <div class="modal-header">
+                <h5 class="modal-title" id="promoteEmployeeModalLabel">Promote Employee</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="showPromoteEmployeeModal = false"></button>
+              </div>
+              <div class="modal-body">
+                <form (ngSubmit)="promoteEmployee()">
+                  <div class="mb-3">
+                    <label for="employeeSelect" class="form-label">Select Employee</label>
+                    <select id="employeeSelect" class="form-select" [(ngModel)]="selectedEmployeeToPromote" name="employeeToPromote" required>
+                      <option *ngFor="let emp of employees" [ngValue]="emp">{{ emp.firstName }} {{ emp.lastName }} ({{ emp.position || 'Staff' }})</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="positionSelect" class="form-label">New Position</label>
+                    <select id="positionSelect" class="form-select" [(ngModel)]="promotePosition" name="promotePosition" required>
+                      <option value="">Select Position</option>
+                      <option value="Admin">Admin</option>
+                      <option value="Manager">Manager</option>
+                      <option value="Supervisor">Supervisor</option>
+                      <option value="Team Lead">Team Lead</option>
+                      <option value="Senior Staff">Senior Staff</option>
+                      <option value="Staff">Staff</option>
+                      <option value="Intern">Intern</option>
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="showPromoteEmployeeModal = false">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Promote</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Add the following styles to your global styles or component styles for hover and timeline -->
+<style>
+  .stat-card-hover:hover {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+    transform: translateY(-4px) scale(1.03);
+    transition: all 0.2s;
+  }
+  .quick-action-hover:hover {
+    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.12), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+    transform: translateY(-2px) scale(1.04);
+    transition: all 0.2s;
+  }
+  .timeline {
+    border-left: 3px solid #e0e7ef;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, #4f8cff 0%, #38e6c5 100%);
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #e0e7ef;
+  }
+  .timeline-item {
+    position: relative;
+  }
+  .timeline-item:before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0.7rem;
+    width: 3px;
+    height: 100%;
+    background: #e0e7ef;
+    z-index: 0;
+  }
+</style>
+<script>
+// Count-up animation for stats (vanilla JS, runs after DOM loads)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.count-up').forEach(function(el) {
+    const end = parseInt(el.getAttribute('data-value'));
+    let start = 0;
+    if (isNaN(end)) return;
+    const duration = 900;
+    const step = Math.ceil(end / (duration / 16));
+    const animate = () => {
+      start += step;
+      if (start > end) start = end;
+      el.textContent = start;
+      if (start < end) requestAnimationFrame(animate);
+    };
+    animate();
+  });
+});
+</script>

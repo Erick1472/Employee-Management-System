@@ -1,0 +1,221 @@
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.3rem;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.table-dark th {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #454d55;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.text-danger {
+    font-size: 0.875em;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+}
+
+/* Modern Salary Table Styles */
+.salary-management-container {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 16px;
+}
+
+.modern-salary-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(31, 38, 135, 0.07);
+}
+
+.modern-salary-table thead th {
+  background: linear-gradient(to bottom, #ffffff, #f3f4f6);
+  color: #374151;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.modern-salary-table tbody tr {
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.modern-salary-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.modern-salary-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.modern-salary-table tbody tr:hover {
+  background-color: #f1f5f9;
+  transform: scale(1.01);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.modern-salary-table td {
+  padding: 1rem 1.25rem;
+  color: #4b5563;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Net Salary Badge */
+.badge-net-salary {
+  display: inline-block;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+}
+
+/* Action Buttons */
+.btn-action-edit, .btn-action-delete {
+  border: none;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.25rem;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-action-edit {
+  background-color: #3b82f6; /* Blue-500 */
+}
+.btn-action-edit:hover {
+  background-color: #2563eb; /* Blue-600 */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+
+.btn-action-delete {
+  background-color: #ef4444; /* Red-500 */
+}
+.btn-action-delete:hover {
+  background-color: #dc2626; /* Red-600 */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+/* Header/Filter Area */
+.salary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.add-salary-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.add-salary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}

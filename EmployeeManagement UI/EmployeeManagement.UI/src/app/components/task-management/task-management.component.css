@@ -1,0 +1,491 @@
+.task-management-container {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 16px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-add-task {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+.btn-add-task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+}
+
+.modern-task-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(45, 55, 72, 0.07);
+}
+
+.modern-task-table thead th {
+  background: #ffffff;
+  color: #374151;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.modern-task-table tbody tr {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.modern-task-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(45, 55, 72, 0.08);
+}
+
+.modern-task-table td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Status-driven row colors */
+.row-Completed { background-color: #f0fdf4; }
+.row-Pending { background-color: #fffbeb; }
+.row-In-Progress { background-color: #eff6ff; }
+
+/* Badges */
+.badge-status, .badge-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.badge-status-Completed { background-color: #dcfce7; color: #166534; }
+.badge-status-Pending { background-color: #fef9c3; color: #854d0e; }
+.badge-status-In-Progress { background-color: #dbeafe; color: #1e40af; }
+
+.badge-priority-High { background-color: #fee2e2; color: #991b1b; }
+.badge-priority-Medium { background-color: #fef3c7; color: #92400e; }
+.badge-priority-Low { background-color: #d1fae5; color: #065f46; }
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+.btn-action-edit, .btn-action-delete {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+}
+.btn-action-edit { color: #3b82f6; }
+.btn-action-edit:hover { color: #2563eb; transform: scale(1.15); }
+.btn-action-delete { color: #ef4444; }
+.btn-action-delete:hover { color: #dc2626; transform: scale(1.15); }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+.empty-state .bi {
+  font-size: 3rem;
+  color: #d1d5db;
+}
+.empty-state p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+h2, h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.task-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #4cae4c;
+}
+
+.form-actions button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.form-actions button[type="button"] {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.form-actions button[type="button"]:hover {
+  background-color: #ec971f;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.task-table th,
+.task-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.task-table th {
+  background-color: #e9e9e9;
+  font-weight: bold;
+  color: #333;
+}
+
+.task-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.task-table tbody tr:hover {
+  background-color: #e6e6e6;
+}
+
+.task-table .edit-btn,
+.task-table .delete-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+}
+
+.task-table .edit-btn {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.task-table .edit-btn:hover {
+  background-color: #31b0d5;
+}
+
+.task-table .delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
+.task-table .delete-btn:hover {
+  background-color: #c9302c;
+}
+
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 2rem 2.5rem;
+  min-width: 350px;
+  max-width: 95vw;
+  width: 400px;
+  position: relative;
+  animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form styling */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  transition: border 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  outline: none;
+  background: #fff;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.form-actions button[type="submit"] {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-actions button[type="submit"]:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.form-actions button[type="button"] {
+  background: #e5e7eb;
+  color: #222;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-actions button[type="button"]:hover {
+  background: #d1d5db;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.92rem;
+  margin-top: 0.1rem;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .modal-content {
+    padding: 1rem;
+    width: 95vw;
+    min-width: unset;
+  }
+}
+
+/* Modern Task Table Styles */
+.modern-table {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(31, 38, 135, 0.06);
+  font-size: 1rem;
+}
+.modern-table th {
+  background: linear-gradient(90deg, #f3f4f6 0%, #e0e7ef 100%);
+  font-weight: 700;
+  font-size: 1.08rem;
+  padding: 16px 12px;
+  border: none;
+}
+.modern-table tr {
+  transition: background 0.2s, box-shadow 0.2s;
+}
+/* REMOVED ZEBRA STRIPING FOR STATUS-DRIVEN COLORS
+.modern-table tr:nth-child(even) { background: #f9fafb; }
+.modern-table tr:nth-child(odd) { background: #fff; }
+*/
+.modern-table tr:hover {
+  background: #f1f5f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.modern-table td {
+  padding: 14px 12px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* Status-driven row colors for a vibrant, scannable table */
+.modern-table .row-completed { background-color: #f0fdf4; }
+.modern-table .row-completed:hover { background-color: #dcfce7; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+.modern-table .row-in-progress { background-color: #eff6ff; }
+.modern-table .row-in-progress:hover { background-color: #dbeafe; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+.modern-table .row-pending { background-color: #fefce8; }
+.modern-table .row-pending:hover { background-color: #fef9c3; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+/* Default row style for any other status */
+.modern-table .row-default { background-color: #ffffff; }
+.modern-table .row-default:hover { background-color: #f9fafb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+/* Buttons */
+.btn-edit {
+  background: #3b82f6;
+  color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-edit:hover { background: #2563eb; box-shadow: 0 4px 16px rgba(59,130,246,0.15); }
+
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-delete:hover { background: #dc2626; box-shadow: 0 4px 16px rgba(239,68,68,0.15); }
+
+/* Badges */
+.badge-completed {
+  background: #22c55e;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 18px;
+  box-shadow: 0 1px 4px rgba(34,197,94,0.08);
+}
+.badge-pending {
+  background: #f59e42;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 18px;
+  box-shadow: 0 1px 4px rgba(245,158,66,0.08);
+}
+.badge-high {
+  background: #ef4444;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 18px;
+  box-shadow: 0 1px 4px rgba(239,68,68,0.08);
+}

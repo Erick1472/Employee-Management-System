@@ -1,0 +1,100 @@
+<div class="leave-request-container">
+
+  <!-- Header: Title and Filter Tabs -->
+  <div class="section-header">
+    <h2 class="section-title">Leave Requests</h2>
+    <div class="filter-tabs">
+      <button 
+        class="filter-tab" 
+        [class.active]="filter.status === ''" 
+        (click)="filterByStatus('')">All</button>
+      <button 
+        class="filter-tab" 
+        [class.active]="filter.status === 'Pending'" 
+        (click)="filterByStatus('Pending')">Pending</button>
+      <button 
+        class="filter-tab" 
+        [class.active]="filter.status === 'Approved'" 
+        (click)="filterByStatus('Approved')">Approved</button>
+      <button 
+        class="filter-tab" 
+        [class.active]="filter.status === 'Rejected'" 
+        (click)="filterByStatus('Rejected')">Rejected</button>
+    </div>
+  </div>
+
+  <!-- Modern Leave Table -->
+  <div class="table-responsive">
+    <table class="modern-leave-table">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Leave Type</th>
+          <th>Dates</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of filteredLeaveRequests" [ngClass]="'row-' + request.status">
+          <td>
+            <div class="fw-bold">{{ getEmployeeName(request.employeeId) }}</div>
+            <div class="text-muted small">{{ request.employeeId }}</div>
+          </td>
+          <td>{{ request.leaveType?.name }}</td>
+          <td>{{ request.startDate | date:'MMM d' }} - {{ request.endDate | date:'MMM d, y' }}</td>
+          <td class="text-truncate" style="max-width: 250px;" [title]="request.reason">{{ request.reason }}</td>
+          <td>
+             <span class="badge" [ngClass]="{
+              'bg-success': request.status === 'Approved',
+              'bg-danger': request.status === 'Rejected',
+              'bg-warning text-dark': request.status === 'Pending'
+            }">
+              {{ request.status }}
+            </span>
+          </td>
+          <td class="action-buttons">
+            <ng-container *ngIf="request.status === 'Pending'">
+              <button class="btn-action btn-action-approve" (click)="approveLeaveRequest(request.id)" title="Approve">
+                <i class="bi bi-check-lg"></i>
+              </button>
+              <button class="btn-action btn-action-reject" (click)="rejectLeaveRequest(request.id)" title="Reject">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </ng-container>
+            <button class="btn-action btn-action-delete" (click)="deleteLeaveRequest(request.id)" title="Delete">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredLeaveRequests.length === 0">
+          <td colspan="6" class="text-center py-5">
+            <h5 class="text-muted">No leave requests found for this filter.</h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add New Leave Request FAB -->
+  <button class="fab-add" (click)="openLeaveModal()" title="Request New Leave">
+    <i class="bi bi-plus-lg"></i>
+  </button>
+
+  <!-- Add/Edit Leave Modal -->
+  <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1">
+      <!-- Modal Content from your existing implementation will go here -->
+  </div>
+  <div *ngIf="showModal" class="modal-backdrop fade show"></div>
+
+</div>
+
+<!-- Toast placeholder for feedback -->
+<div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+  <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+       [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+    <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+  </div>
+</div>

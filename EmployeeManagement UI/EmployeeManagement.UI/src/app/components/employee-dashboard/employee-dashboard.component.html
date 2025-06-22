@@ -1,0 +1,675 @@
+<div class="dashboard-wrapper">
+  <!-- Side Navigation Bar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Employee Hub</h3>
+    </div>
+    <ul class="sidebar-menu">
+      <li (click)="selectSection('welcome')" [class.active]="activeSection === 'welcome'">
+        <i class="bi bi-house-door-fill"></i> Home
+      </li>
+      <li (click)="selectSection('profile')" [class.active]="activeSection === 'profile'">
+        <i class="bi bi-person-fill"></i> Profile Summary
+      </li>
+      <li (click)="selectSection('leave')" [class.active]="activeSection === 'leave'">
+        <i class="bi bi-calendar-check-fill"></i> Leave Overview
+      </li>
+      <li (click)="selectSection('attendance')" [class.active]="activeSection === 'attendance'">
+        <i class="bi bi-person-check-fill"></i> Attendance Overview
+      </li>
+      <li (click)="selectSection('tasks')" [class.active]="activeSection === 'tasks'">
+        <i class="bi bi-list-task"></i> Tasks / Responsibilities
+      </li>
+      <li (click)="selectSection('announcements')" [class.active]="activeSection === 'announcements'">
+        <i class="bi bi-megaphone-fill"></i> Announcements
+      </li>
+      <li (click)="selectSection('messages')" [class.active]="activeSection === 'messages'">
+        <i class="bi bi-chat-dots-fill"></i> Messages
+      </li>
+      <li (click)="selectSection('performance')" [class.active]="activeSection === 'performance'">
+        <i class="bi bi-graph-up"></i> Performance Snapshot
+      </li>
+      <li (click)="selectSection('settings')" [class.active]="activeSection === 'settings'">
+        <i class="bi bi-gear-fill"></i> Settings / Preferences
+      </li>
+      <li (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <header class="main-header">
+      <h1>Employee Dashboard</h1>
+      <div class="welcome-message" *ngIf="activeSection !== 'profile'">
+        Welcome back, <span class="employee-name">{{ employee?.firstName }} {{ employee?.lastName }}</span>!
+        <span *ngIf="lastLoginTime"> (Last login: {{ lastLoginTime | date:'medium' }})</span>
+      </div>
+    </header>
+
+    <!-- Top right enhanced logout button -->
+    <button 
+      class="btn btn-danger btn-logout-top-right"
+      style="position: absolute; top: 20px; right: 30px; z-index: 1000; display: flex; align-items: center; gap: 6px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 24px; padding: 8px 18px; transition: background 0.2s;"
+      (click)="logout()"
+      title="Logout">
+      <i class="bi bi-box-arrow-right" style="font-size: 1.2em;"></i>
+      Logout
+    </button>
+
+    <!-- Enhanced Welcome Section -->
+    <section *ngIf="activeSection === 'welcome'" class="dashboard-section welcome-section animate__animated animate__fadeIn">
+
+      <!-- 1. Hero Banner -->
+      <div class="dashboard-hero glass-card animate__animated animate__fadeInDown mb-4">
+        <div class="hero-content d-flex align-items-center gap-4 flex-wrap">
+          <div class="hero-carousel">
+            <img *ngFor="let img of heroImages; let i = index" [src]="img.url" [alt]="img.alt" class="hero-carousel-img" [class.active]="i === currentHeroImage" />
+          </div>
+          <div>
+            <h2 class="mb-2 welcome-marquee">Welcome, {{ employee?.firstName }}!</h2>
+            <div class="accent-bar"></div>
+            <p class="lead mb-0">Your personal hub for success. Let's make it a great day.</p>
+          </div>
+        </div>
+        <div class="floating-accent"></div>
+      </div>
+
+      <!-- 2. Quick Stats Cards -->
+      <div class="row g-4 mb-4 justify-content-center">
+        <div class="col-xl-3 col-md-6" *ngFor="let stat of dashboardStats">
+          <div class="glass-card animate__animated animate__fadeInUp animate__faster text-center stat-card-hover" [ngClass]="stat.bg" (click)="stat.action()">
+            <div class="d-flex flex-column align-items-center p-3">
+              <div class="stat-icon mb-2"><i class="bi" [ngClass]="stat.icon" style="font-size:2.2rem;"></i></div>
+              <div class="text-xs fw-bold text-uppercase mb-1">{{ stat.label }}</div>
+              <div class="h4 mb-0 fw-bold count-up" [attr.data-value]="stat.value">{{ stat.value }}</div>
+              <small *ngIf="stat.sub">{{ stat.sub }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Quick Action Buttons -->
+      <div class="row mb-4 justify-content-center">
+        <div class="col-auto d-flex flex-wrap gap-3 justify-content-center">
+          <button class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="openRequestLeaveModal()">
+            <i class="bi bi-calendar2-plus"></i> Request Leave
+          </button>
+          <button class="btn btn-info btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('tasks')">
+            <i class="bi bi-list-task"></i> View My Tasks
+          </button>
+          <button class="btn btn-success btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('attendance')">
+            <i class="bi bi-clock-history"></i> My Attendance
+          </button>
+          <button class="btn btn-warning btn-lg rounded-pill px-4 shadow-sm quick-action-hover" (click)="selectSection('performance')">
+            <i class="bi bi-graph-up-arrow"></i> My Performance
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Profile Summary Section -->
+    <section *ngIf="activeSection === 'profile'" class="dashboard-section profile-section">
+      <h2 class="section-title">Profile Summary</h2>
+      <div class="profile-cards">
+        <div class="profile-card text-center p-4 shadow-lg rounded-4 bg-white position-relative">
+          <div class="position-relative d-inline-block mb-3">
+            <img [src]="getEmployeeAvatar(employee)" class="profile-picture mb-2 border border-3 border-primary" alt="Profile Picture" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
+            <button class="btn btn-light btn-sm position-absolute bottom-0 end-0 rounded-circle border shadow" style="transform: translate(25%, 25%);" (click)="openEditProfileModal()" title="Edit Profile Picture">
+              <i class="bi bi-camera"></i>
+            </button>
+          </div>
+          <h3 class="fw-bold mb-1">{{ employee?.firstName }} {{ employee?.lastName }}</h3>
+          <div class="mb-2 text-muted small">{{ employee?.emailId }}</div>
+          <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+            <span class="badge bg-success" *ngIf="employee?.status === 'Active'">Active</span>
+            <span class="badge bg-secondary" *ngIf="employee?.status !== 'Active'">Inactive</span>
+            <span class="badge bg-info"><i class="bi bi-building"></i> {{ employee?.department }}</span>
+            <span class="badge bg-primary"><i class="bi bi-briefcase"></i> {{ employee?.position }}</span>
+            <span class="badge bg-light text-dark"><i class="bi bi-calendar-event"></i> {{ employee?.dateOfJoining | date }}</span>
+          </div>
+          <div class="mb-2"><i class="bi bi-telephone me-1"></i> <strong>Phone:</strong> {{ employee?.mobileNo }}</div>
+          <div class="mb-2" *ngIf="employee?.gender"><i class="bi bi-gender-ambiguous me-1"></i> <strong>Gender:</strong> {{ employee?.gender | titlecase }}</div>
+          <div class="mb-2" *ngIf="employee?.bio"><i class="bi bi-person-lines-fill me-1"></i> <strong>Bio:</strong> {{ employee?.bio }}</div>
+        </div>
+      </div>
+      <button class="btn btn-primary edit-profile-btn mt-3" (click)="openEditProfileModal()"><i class="bi bi-pencil me-1"></i> Edit Profile</button>
+    </section>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade animate__animated animate__fadeInDown animate__faster" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form #editProfileForm="ngForm" (ngSubmit)="saveProfileChanges()">
+              <div class="mb-3 text-center">
+                <img [src]="getEmployeeAvatar(editEmployee)" class="profile-picture mb-2 border border-2 border-primary" alt="Profile Picture" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
+                <input type="file" (change)="onEditAvatarSelected($event)" accept="image/*" class="form-control form-control-sm mt-1">
+              </div>
+              <div class="row g-2">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" [(ngModel)]="editEmployee.firstName" name="firstName" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" [(ngModel)]="editEmployee.lastName" name="lastName" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="mobileNo" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="mobileNo" [(ngModel)]="editEmployee.mobileNo" name="mobileNo" required pattern="^[0-9]{10,15}$">
+                <div *ngIf="editProfileForm.submitted && !editEmployee.mobileNo" class="text-danger small">Phone number is required.</div>
+              </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" [(ngModel)]="editEmployee.gender" name="gender">
+                  <option value="">-- Select Gender --</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" [(ngModel)]="editEmployee.bio" name="bio" rows="2" maxlength="200" placeholder="Write a short bio (max 200 chars)"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="emailId" class="form-label">Email</label>
+                <input type="email" class="form-control" id="emailId" [(ngModel)]="editEmployee.emailId" name="emailId" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="department" class="form-label">Department</label>
+                <input type="text" class="form-control" id="department" [(ngModel)]="editEmployee.department" name="department" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="position" class="form-label">Position</label>
+                <input type="text" class="form-control" id="position" [(ngModel)]="editEmployee.position" name="position" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="dateOfJoining" class="form-label">Date of Joining</label>
+                <input type="text" class="form-control" id="dateOfJoining" [(ngModel)]="editEmployee.dateOfJoining" name="dateOfJoining" readonly>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">
+                  <span *ngIf="isProfileSaving" class="spinner-border spinner-border-sm me-2"></span>
+                  Save changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leave Overview Section -->
+    <section *ngIf="activeSection === 'leave'" class="dashboard-section leave-section">
+      <h2 class="section-title">Leave Overview</h2>
+      <div class="leave-cards modern-leave-cards">
+        <div class="card leave-card stat-card stat-applied">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-file-earmark-plus"></i></div>
+            <h5 class="card-title">Leaves Applied</h5>
+            <p class="card-text">{{ leaveStats.totalApplied }}</p>
+          </div>
+        </div>
+        <div class="card leave-card stat-card stat-pending">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+            <h5 class="card-title">Pending Leaves</h5>
+            <p class="card-text">{{ leaveStats.pending }}</p>
+          </div>
+        </div>
+        <div class="card leave-card stat-card stat-approved">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+            <h5 class="card-title">Approved Leaves</h5>
+            <p class="card-text">{{ leaveStats.approved }}</p>
+          </div>
+        </div>
+        <div class="card leave-card stat-card stat-rejected">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
+            <h5 class="card-title">Rejected Leaves</h5>
+            <p class="card-text">{{ leaveStats.rejected }}</p>
+          </div>
+        </div>
+        <div class="card leave-card stat-card stat-balance">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-calendar2-check"></i></div>
+            <h5 class="card-title">Leave Balance</h5>
+            <p class="card-text">{{ leaveStats.balance }} <span class="unit">days</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="leave-requests-table mt-4">
+        <h4 class="section-subtitle">My Leave Requests</h4>
+        <div class="table-responsive modern-table-responsive">
+          <table class="table table-striped table-hover modern-table">
+            <thead class="sticky-header">
+              <tr>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of leaveRequestsList">
+                <td><i class="bi bi-calendar2-week me-1"></i> {{ request.leaveType?.name }}</td>
+                <td>{{ request.startDate | date }}</td>
+                <td>{{ request.endDate | date }}</td>
+                <td>{{ request.reason }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge status-badge bg-warning': request.status === 'Pending',
+                    'badge status-badge bg-success': request.status === 'Approved',
+                    'badge status-badge bg-danger': request.status === 'Rejected'
+                  }">
+                    <i class="bi" [ngClass]="{
+                      'bi-hourglass-split': request.status === 'Pending',
+                      'bi-check-circle': request.status === 'Approved',
+                      'bi-x-circle': request.status === 'Rejected'
+                    }"></i> {{ request.status }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="leaveRequestsList.length === 0">
+                <td colspan="5" class="text-center">No leave requests found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="btn btn-info request-leave-btn modern-request-btn floating-action-btn" (click)="openRequestLeaveModal()" title="Request New Leave">
+        <i class="bi bi-plus-circle"></i>
+      </button>
+    </section>
+
+    <!-- Request Leave Modal -->
+    <div class="modal fade modern-modal animate__animated animate__fadeInDown animate__faster" id="requestLeaveModal" tabindex="-1" aria-labelledby="requestLeaveModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="requestLeaveModalLabel">Request New Leave</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="leaveType" class="form-label">Leave Type</label>
+                <select class="form-select" id="leaveType" [(ngModel)]="newLeaveRequest.leaveTypeId" name="leaveType" required>
+                  <option *ngFor="let type of leaveTypes" [value]="type.id">{{ type.name }}</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="startDate" [(ngModel)]="newLeaveRequest.startDate" name="startDate" required>
+              </div>
+              <div class="mb-3">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="endDate" [(ngModel)]="newLeaveRequest.endDate" name="endDate" required>
+              </div>
+              <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <textarea class="form-control" id="reason" rows="3" [(ngModel)]="newLeaveRequest.reason" name="reason" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="replacementEmployee" class="form-label">Replacement Employee</label>
+                <select class="form-select" id="replacementEmployee" [(ngModel)]="newLeaveRequest.replacementEmployeeId" name="replacementEmployee" required>
+                  <option value="" disabled selected>Select a replacement</option>
+                  <!-- To be populated dynamically with employees except self -->
+                  <option *ngFor="let emp of replacementEmployees" [value]="emp.empId">{{ emp.firstName }} {{ emp.lastName }}</option>
+                </select>
+                <div class="invalid-feedback">Please select a replacement employee.</div>
+              </div>
+              <!-- Validation feedback placeholder -->
+              <div *ngIf="formError" class="alert alert-danger mt-2">{{ formError }}</div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="submitLeaveRequest()">Submit Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Overview Section -->
+    <section *ngIf="activeSection === 'attendance'" class="dashboard-section attendance-section">
+      <h2 class="section-title">Attendance Overview</h2>
+      <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <div class="date-range-field animate__animated animate__fadeInDown animate__faster">
+          <label class="me-2">Start Date:</label>
+          <input type="date" class="form-control form-control-sm d-inline-block w-auto" [(ngModel)]="attendanceFilter.start" (change)="onAttendanceDateChange()" name="attendanceStartDate">
+          <label class="ms-3 me-2">End Date:</label>
+          <input type="date" class="form-control form-control-sm d-inline-block w-auto" [(ngModel)]="attendanceFilter.end" (change)="onAttendanceDateChange()" name="attendanceEndDate">
+        </div>
+        <button class="btn btn-outline-primary animate__animated animate__fadeInDown animate__faster" (click)="exportAttendanceToCSV()">
+          <i class="bi bi-download"></i> Export CSV
+        </button>
+        <button class="btn btn-outline-dark animate__animated animate__fadeInDown animate__faster" (click)="toggleHighContrast()">
+          <i class="bi bi-circle-half"></i> High Contrast
+        </button>
+      </div>
+      <div class="attendance-cards modern-attendance-cards">
+        <div class="card attendance-card stat-present shadow-sm animate__animated animate__fadeInLeft animate__faster">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-person-check"></i></div>
+            <h5 class="card-title">Present Days</h5>
+            <p class="card-text">{{ attendanceSummary.present }}</p>
+          </div>
+        </div>
+        <div class="card attendance-card stat-absent shadow-sm animate__animated animate__fadeInUp animate__faster">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-person-x"></i></div>
+            <h5 class="card-title">Absent Days</h5>
+            <p class="card-text">{{ attendanceSummary.absent }}</p>
+          </div>
+        </div>
+        <div class="card attendance-card stat-late shadow-sm animate__animated animate__fadeInRight animate__faster">
+          <div class="card-body">
+            <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+            <h5 class="card-title">Late Check-ins</h5>
+            <p class="card-text">{{ attendanceSummary.late }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="attendance-table mt-4">
+        <h4 class="section-subtitle">My Attendance Log</h4>
+        <div class="table-responsive modern-table-responsive">
+          <table class="table table-striped table-hover modern-table">
+            <thead class="sticky-header bg-dark text-white" style="position: sticky; top: 0; z-index: 2;">
+              <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Late</th>
+                <th>Check-in Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of filteredAttendanceRecords" class="table-row-hover animate__animated animate__fadeIn animate__faster" (click)="openAttendanceDetailModal(record)" style="cursor:pointer;">
+                <td>{{ record.date | date:'yyyy-MM-dd' }}</td>
+                <td>
+                  <span class="badge px-3 py-2 fs-6" [ngClass]="record.isPresent ? 'bg-success' : 'bg-danger'">
+                    <i class="bi" [ngClass]="record.isPresent ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+                    {{ record.isPresent ? 'Present' : 'Absent' }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge px-3 py-2 fs-6" [ngClass]="record.isLate ? 'bg-warning text-dark' : 'bg-secondary'">
+                    <i class="bi bi-clock-history"></i> {{ record.isLate ? 'Yes' : 'No' }}
+                  </span>
+                </td>
+                <td>{{ record.checkInTime ? (record.checkInTime | date:'HH:mm') : '-' }}</td>
+              </tr>
+              <tr *ngIf="filteredAttendanceRecords.length === 0">
+                <td colspan="4" class="text-center">No attendance records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="isAttendanceLoading" class="text-center my-4">
+          <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
+        </div>
+      </div>
+      <!-- Attendance Detail Modal -->
+      <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showAttendanceDetailModal" aria-modal="true" aria-labelledby="attendanceDetailModalLabel">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+          <div class="modal-content glass-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="attendanceDetailModalLabel">Attendance Details</h5>
+              <button type="button" class="btn-close" aria-label="Close" (click)="closeAttendanceDetailModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="selectedAttendanceRecord">
+                <div><strong>Date:</strong> {{ selectedAttendanceRecord.date | date:'fullDate' }}</div>
+                <div><strong>Status:</strong> <span class="badge" [ngClass]="selectedAttendanceRecord.isPresent ? 'bg-success' : 'bg-danger'">{{ selectedAttendanceRecord.isPresent ? 'Present' : 'Absent' }}</span></div>
+                <div><strong>Late:</strong> <span class="badge" [ngClass]="selectedAttendanceRecord.isLate ? 'bg-warning text-dark' : 'bg-secondary'">{{ selectedAttendanceRecord.isLate ? 'Yes' : 'No' }}</span></div>
+                <div><strong>Check-in Time:</strong> {{ selectedAttendanceRecord.checkInTime ? (selectedAttendanceRecord.checkInTime | date:'shortTime') : '-' }}</div>
+                <div *ngIf="selectedAttendanceRecord.checkOutTime"><strong>Check-out Time:</strong> {{ selectedAttendanceRecord.checkOutTime | date:'shortTime' }}</div>
+                <div *ngIf="selectedAttendanceRecord.notes"><strong>Notes:</strong> {{ selectedAttendanceRecord.notes }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Toast placeholder for feedback -->
+      <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+        <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+             [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+          <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+          <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tasks / Responsibilities Section -->
+    <section *ngIf="activeSection === 'tasks'" class="dashboard-section tasks-section">
+      <h2 class="section-title">My Tasks</h2>
+      <div class="table-responsive task-table-container">
+        <table class="table task-table table-hover align-middle">
+          <thead class="sticky-header bg-dark text-white" style="position: sticky; top: 0; z-index: 2;">
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Due Date</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of tasks" class="table-row-hover">
+              <td><i class="bi bi-clipboard-check me-1 text-primary"></i> {{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td><i class="bi bi-calendar-event me-1 text-info"></i> {{ task.dueDate | date }}</td>
+              <td>
+                <span class="badge px-3 py-2 fs-6" [ngClass]="{
+                  'bg-danger': task.priority === 'High',
+                  'bg-warning text-dark': task.priority === 'Medium',
+                  'bg-success': task.priority === 'Low'
+                }">
+                  <i class="bi" [ngClass]="{
+                    'bi-exclamation-triangle-fill': task.priority === 'High',
+                    'bi-exclamation-circle-fill': task.priority === 'Medium',
+                    'bi-arrow-down-circle-fill': task.priority === 'Low'
+                  }"></i> {{ task.priority }}
+                </span>
+              </td>
+              <td>
+                <span [ngClass]="{'badge bg-warning text-dark px-3 py-2 fs-6': task.status === 'Pending', 'badge bg-success px-3 py-2 fs-6': task.status === 'Completed'}">
+                  <i class="bi" [ngClass]="task.status === 'Completed' ? 'bi-check-circle-fill' : 'bi-hourglass-split'"></i>
+                  {{ task.status }}
+                </span>
+                <div *ngIf="task.progress !== undefined" class="progress mt-2" style="height: 8px;">
+                  <div class="progress-bar" [style.width]="task.progress + '%'" [ngClass]="{
+                    'bg-success': task.progress === 100,
+                    'bg-info': task.progress < 100 && task.progress >= 50,
+                    'bg-warning': task.progress < 50
+                  }"></div>
+                </div>
+              </td>
+              <td>
+                <span *ngIf="task.status === 'Completed'" aria-label="Completed"><i class="bi bi-check-circle-fill text-success"></i></span>
+                <span *ngIf="task.status !== 'Completed'">
+                  <button class="btn btn-success btn-sm shadow-sm" [disabled]="isMarkingTask[task.id]" (click)="markTaskCompleted(task.id)" aria-label="Mark as completed" title="Mark as completed">
+                    <span *ngIf="isMarkingTask[task.id]" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span *ngIf="!isMarkingTask[task.id]">Mark Complete</span>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="tasks.length === 0">
+              <td colspan="6" class="no-data text-center">No tasks assigned.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="isTasksLoading" class="text-center my-4">
+          <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Announcements / Messages Section -->
+    <section *ngIf="activeSection === 'announcements' || activeSection === 'messages'" class="dashboard-section comm-section">
+      <div class="comm-tabs">
+        <button class="tab-btn" [class.active]="activeSection === 'announcements'" (click)="selectSection('announcements')">
+          <i class="bi bi-megaphone-fill"></i> Announcements
+          <span *ngIf="unreadAnnouncementsCount > 0" class="badge bg-danger ms-1">{{ unreadAnnouncementsCount }}</span>
+        </button>
+        <button class="tab-btn" [class.active]="activeSection === 'messages'" (click)="selectSection('messages')">
+          <i class="bi bi-chat-dots-fill"></i> Messages
+          <span *ngIf="unreadMessagesCount > 0" class="badge bg-danger ms-1">{{ unreadMessagesCount }}</span>
+        </button>
+      </div>
+      <div *ngIf="activeSection === 'announcements'">
+        <h2>Company Announcements</h2>
+        <div *ngFor="let ann of announcements" class="announcement-card" [class.unread]="!ann.read">
+          <div class="ann-title">{{ ann.title }}</div>
+          <div class="ann-date">{{ ann.date | date:'short' }}</div>
+          <div class="ann-content">{{ ann.content }}</div>
+        </div>
+        <div *ngIf="announcements.length === 0" class="text-muted">No announcements yet.</div>
+      </div>
+      <div *ngIf="activeSection === 'messages'">
+        <h2>Direct Messages</h2>
+        <div *ngFor="let msg of messages" class="message-card" [class.unread]="!msg.read">
+          <div class="msg-from">From: <strong>{{ msg.sender }}</strong></div>
+          <div class="msg-subject">{{ msg.subject }}</div>
+          <div class="msg-date">{{ msg.time | date:'short' }}</div>
+          <div class="msg-content">{{ msg.content }}</div>
+        </div>
+        <div *ngIf="messages.length === 0" class="text-muted">No messages yet.</div>
+      </div>
+    </section>
+
+    <!-- Performance Snapshot Section -->
+    <section *ngIf="activeSection === 'performance'" class="dashboard-section performance-section">
+      <h2 class="section-title">Performance</h2>
+      <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <select [(ngModel)]="performanceFilter.period" (change)="applyPerformanceFilters()" class="form-select form-select-sm">
+          <option value="all">All Time</option>
+          <option value="month">This Month</option>
+          <option value="quarter">This Quarter</option>
+          <option value="year">This Year</option>
+        </select>
+        <select [(ngModel)]="performanceFilter.type" (change)="applyPerformanceFilters()" class="form-select form-select-sm ms-2">
+          <option value="all">All Types</option>
+          <option value="KPI">KPI</option>
+          <option value="Review">Review</option>
+          <option value="Goal">Goal</option>
+        </select>
+        <button class="btn btn-outline-primary btn-sm ms-2" (click)="exportPerformanceToCSV()"><i class="bi bi-download"></i> Export CSV</button>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+            <div class="card-body">
+              <h5 class="card-title">Attendance</h5>
+              <div class="display-5 fw-bold text-success">{{ performanceSnapshot?.attendance || 0 }}%</div>
+              <div class="text-muted">Attendance Rate</div>
+            </div>
+          </div>
+          <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+            <div class="card-body">
+              <h5 class="card-title">Tasks Completed</h5>
+              <div class="display-5 fw-bold text-info">{{ performanceSnapshot?.tasksCompleted || 0 }}</div>
+              <div class="text-muted">Completed Tasks</div>
+            </div>
+          </div>
+          <div class="card mb-3 shadow-sm animate__animated animate__fadeInLeft animate__faster">
+            <div class="card-body">
+              <h5 class="card-title">Recognitions</h5>
+              <div class="display-5 fw-bold text-warning">{{ performanceSnapshot?.recognitions || 0 }}</div>
+              <div class="text-muted">Awards & Recognitions</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card shadow-sm animate__animated animate__fadeInRight animate__faster">
+            <div class="card-body">
+              <h5 class="card-title">Performance Timeline</h5>
+              <div *ngIf="filteredPerformanceTimeline && filteredPerformanceTimeline.length > 0">
+                <ul class="timeline list-unstyled">
+                  <li *ngFor="let event of filteredPerformanceTimeline" class="mb-3 d-flex align-items-center animate__animated animate__fadeInLeft animate__faster" (click)="openPerformanceDetailModal(event)" style="cursor:pointer;">
+                    <span class="badge me-2 fs-6" [ngClass]="'bg-' + event.badgeColor"><i class="bi" [ngClass]="event.icon"></i></span>
+                    <strong>{{ event.type }}</strong>: {{ event.description }}
+                    <span class="text-muted small ms-2">{{ event.date | date:'short' }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="!filteredPerformanceTimeline || filteredPerformanceTimeline.length === 0" class="text-muted text-center my-4">
+                No performance events yet.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Performance Detail Modal -->
+      <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showPerformanceDetailModal" aria-modal="true" aria-labelledby="performanceDetailModalLabel">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+          <div class="modal-content glass-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="performanceDetailModalLabel">Performance Detail</h5>
+              <button type="button" class="btn-close" aria-label="Close" (click)="closePerformanceDetailModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="selectedPerformanceEvent">
+                <div><strong>Type:</strong> {{ selectedPerformanceEvent.type }}</div>
+                <div><strong>Description:</strong> {{ selectedPerformanceEvent.description }}</div>
+                <div><strong>Date:</strong> {{ selectedPerformanceEvent.date | date:'fullDate' }}</div>
+                <div *ngIf="selectedPerformanceEvent.feedback"><strong>Feedback:</strong> {{ selectedPerformanceEvent.feedback }}</div>
+                <div *ngIf="selectedPerformanceEvent.manager"><strong>Manager:</strong> {{ selectedPerformanceEvent.manager }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Toast placeholder for feedback -->
+      <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+        <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+             [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+          <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+          <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings / Preferences Section -->
+    <section *ngIf="activeSection === 'settings'" class="dashboard-section settings-section">
+      <h2 class="section-title">Settings & Preferences</h2>
+      <div class="settings-form-container">
+        <form>
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password">
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" class="form-control" placeholder="Enter new password">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password">
+          </div>
+          <button type="submit" class="btn btn-primary change-password-btn">Change Password</button>
+        </form>
+        <hr>
+        <h4>Contact Information</h4>
+        <p>Update your contact information directly via the Admin department for security reasons.</p>
+        <button class="btn btn-secondary contact-hr-btn">Contact HR/Admin</button>
+      </div>
+    </section>
+  </main>
+</div>

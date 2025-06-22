@@ -1,0 +1,114 @@
+<div class="salary-management-container">
+  <!-- Header: Title, Filters, and Add Button -->
+  <div class="salary-header">
+    <h2 class="section-title mb-0">Salary Management</h2>
+    <div class="filter-controls">
+      <select class="form-select" [(ngModel)]="filter.employeeId" (change)="applyFilters()">
+        <option value="">All Employees</option>
+        <option *ngFor="let emp of employees" [value]="emp.empId">{{ emp.firstName }} {{ emp.lastName }}</option>
+      </select>
+      <input type="text" class="form-control" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by name, EmpId, or department">
+    </div>
+    <button class="add-salary-btn" (click)="openSalaryModal()">
+      <i class="bi bi-plus-lg me-2"></i>Add New Salary Record
+    </button>
+  </div>
+
+  <!-- Modern Salary Table -->
+  <div class="table-responsive">
+    <table class="modern-salary-table">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Basic Salary</th>
+          <th>Allowances</th>
+          <th>Deductions</th>
+          <th>Net Salary</th>
+          <th>Month</th>
+          <th>Payment Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of filteredSalaries" (click)="openSalaryModal(record)">
+          <td>
+            <div class="fw-bold">{{ getEmployeeName(record.employeeId) }}</div>
+            <div class="text-muted small">{{ record.employeeId }} - {{ getEmployeeDepartment(record.employeeId) }}</div>
+          </td>
+          <td>{{ record.basicSalary | currency }}</td>
+          <td>{{ record.allowances | currency }}</td>
+          <td>{{ record.deductions | currency }}</td>
+          <td><span class="badge-net-salary">{{ record.netSalary | currency }}</span></td>
+          <td>{{ record.month }}</td>
+          <td>{{ record.paymentDate | date:'yyyy-MM-dd' }}</td>
+          <td>
+            <button class="btn-action-edit" (click)="$event.stopPropagation(); openSalaryModal(record)" title="Edit">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn-action-delete" (click)="$event.stopPropagation(); deleteSalary(record.id)" title="Delete">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredSalaries.length === 0">
+          <td colspan="8" class="text-center py-4">
+            <p class="mb-0 text-muted">No salary records found.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add/Edit Salary Modal -->
+  <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEditMode ? 'Edit Salary' : 'Add New Salary' }}</h5>
+          <button type="button" class="btn-close" (click)="closeSalaryModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="salaryForm" (ngSubmit)="onSubmit()">
+            <!-- Form fields go here, e.g., employee select, basic salary, etc. -->
+            <div class="mb-3">
+              <label class="form-label">Employee</label>
+              <select class="form-select" formControlName="employeeId">
+                <option *ngFor="let emp of employees" [value]="emp.empId">{{ emp.firstName }} {{ emp.lastName }}</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Basic Salary</label>
+                <input type="number" class="form-control" formControlName="basicSalary">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Allowances</label>
+                <input type="number" class="form-control" formControlName="allowances">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Deductions</label>
+                <input type="number" class="form-control" formControlName="deductions">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Month</label>
+                <input type="text" class="form-control" formControlName="month">
+              </div>
+            </div>
+             <div class="mb-3">
+                <label class="form-label">Payment Date</label>
+                <input type="date" class="form-control" formControlName="paymentDate">
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeSalaryModal()">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="salaryForm.invalid">{{ isEditMode ? 'Update' : 'Save' }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showModal" class="modal-backdrop fade show"></div>
+
+</div>

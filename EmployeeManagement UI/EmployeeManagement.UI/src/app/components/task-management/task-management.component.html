@@ -1,0 +1,186 @@
+<div class="task-management-container">
+
+  <!-- Header Section -->
+  <div class="section-header">
+    <h2 class="section-title">Task Management</h2>
+    <button class="btn-add-task" (click)="openTaskModal()">
+      <i class="bi bi-plus-lg me-1"></i> Add New Task
+    </button>
+  </div>
+  
+  <!-- Filter Controls -->
+  <div class="filter-controls mb-4">
+    <select class="form-select form-select-sm" [(ngModel)]="filter.status" (change)="applyFilters()">
+      <option value="">All Statuses</option>
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <select class="form-select form-select-sm" [(ngModel)]="filter.priority" (change)="applyFilters()">
+      <option value="">All Priorities</option>
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+    <input type="date" class="form-control form-control-sm" [(ngModel)]="filter.dueDate" (change)="applyFilters()">
+    <button class="btn btn-outline-secondary btn-sm" (click)="clearFilters()"><i class="bi bi-x"></i> Clear</button>
+  </div>
+
+  <!-- Modern Task Table -->
+  <div class="table-responsive">
+    <table class="modern-task-table">
+      <thead>
+        <tr>
+          <th><input type="checkbox" (change)="toggleSelectAll($event)"></th>
+          <th>Task Title</th>
+          <th>Assigned To</th>
+          <th>Due Date</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="filteredTasks.length > 0; else noTasks">
+          <tr *ngFor="let task of filteredTasks" 
+              [ngClass]="'row-' + task.status.replace(' ', '-')">
+            <td><input type="checkbox" [checked]="selectedTasks.includes(task.id)" (click)="$event.stopPropagation(); toggleTaskSelection(task.id)"></td>
+            <td>
+              <div class="fw-bold">{{ task.title }}</div>
+              <div class="text-muted small text-truncate" style="max-width: 250px;">{{ task.description }}</div>
+            </td>
+            <td>{{ getEmployeeName(task.assignedToEmployeeId) }}</td>
+            <td>{{ task.dueDate | date:'MMM d, y' }}</td>
+            <td>
+              <span class="badge-priority" [ngClass]="'badge-priority-' + task.priority">
+                <i class="bi bi-flag-fill"></i> {{ task.priority }}
+              </span>
+            </td>
+            <td>
+              <span class="badge-status" [ngClass]="'badge-status-' + task.status.replace(' ', '-')">
+                <i class="bi" [ngClass]="{'bi-check-circle-fill': task.status === 'Completed', 'bi-hourglass-split': task.status === 'Pending', 'bi-arrow-repeat': task.status === 'In Progress'}"></i>
+                {{ task.status }}
+              </span>
+            </td>
+            <td class="text-end">
+              <div class="action-buttons">
+                <button class="btn-action-edit" (click)="editTask(task)" title="Edit Task">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn-action-delete" (click)="deleteTask(task.id)" title="Delete Task">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #noTasks>
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <i class="bi bi-check2-circle"></i>
+                <p>All tasks are cleared. Great job!</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Add/Edit Task Modal -->
+  <div *ngIf="showTaskModal" class="modal-backdrop animate__animated animate__fadeIn animate__faster">
+    <div class="modal-content animate__animated animate__fadeInDown animate__faster">
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <h3>{{ isEditMode ? 'Edit Task' : 'Add New Task' }}</h3>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" formControlName="title" placeholder="Task Title">
+          <div *ngIf="taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)" class="error-message">
+            Title is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" formControlName="description" placeholder="Task Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="assignedToEmployeeId">Assigned To:</label>
+          <select id="assignedToEmployeeId" formControlName="assignedToEmployeeId">
+            <option value="">Select Employee</option>
+            <option *ngFor="let employee of employees" [value]="employee.empId">
+              {{ employee.firstName }} {{ employee.lastName }}
+            </option>
+          </select>
+          <div *ngIf="taskForm.get('assignedToEmployeeId')?.invalid && (taskForm.get('assignedToEmployeeId')?.dirty || taskForm.get('assignedToEmployeeId')?.touched)" class="error-message">
+            Employee assignment is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dueDate">Due Date:</label>
+          <input type="date" id="dueDate" formControlName="dueDate">
+          <div *ngIf="taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.dirty || taskForm.get('dueDate')?.touched)" class="error-message">
+            Due Date is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="priority">Priority:</label>
+          <select id="priority" formControlName="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="isEditMode">
+          <label for="status">Status:</label>
+          <select id="status" formControlName="status">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="taskForm.invalid">{{ isEditMode ? 'Update Task' : 'Add Task' }}</button>
+          <button type="button" (click)="closeTaskModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Task Details Modal -->
+  <div *ngIf="showTaskDetailModal" class="modal-backdrop animate__animated animate__fadeIn animate__faster">
+    <div class="modal-content animate__animated animate__fadeInDown animate__faster">
+      <div class="modal-header">
+        <h4 class="modal-title">Task Details</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeTaskDetailModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedTaskDetail">
+          <div><strong>Title:</strong> {{ selectedTaskDetail.title }}</div>
+          <div><strong>Description:</strong> {{ selectedTaskDetail.description }}</div>
+          <div><strong>Assigned To:</strong> {{ getEmployeeName(selectedTaskDetail.assignedToEmployeeId) }}</div>
+          <div><strong>Due Date:</strong> {{ selectedTaskDetail.dueDate | date:'fullDate' }}</div>
+          <div><strong>Priority:</strong> <span class="badge" [ngClass]="{
+            'bg-success': selectedTaskDetail.priority === 'Low',
+            'bg-warning text-dark': selectedTaskDetail.priority === 'Medium',
+            'bg-danger': selectedTaskDetail.priority === 'High'
+          }"><i class="bi bi-flag-fill"></i> {{ selectedTaskDetail.priority }}</span></div>
+          <div><strong>Status:</strong> <span class="badge" [ngClass]="{
+            'bg-warning text-dark': selectedTaskDetail.status === 'Pending',
+            'bg-info text-dark': selectedTaskDetail.status === 'In Progress',
+            'bg-success': selectedTaskDetail.status === 'Completed'
+          }"><i class="bi bi-circle-fill"></i> {{ selectedTaskDetail.status }}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast placeholder for feedback -->
+  <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+         [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+      <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+      <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+    </div>
+  </div>
+</div>

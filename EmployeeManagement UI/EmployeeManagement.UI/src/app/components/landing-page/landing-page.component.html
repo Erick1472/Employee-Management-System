@@ -1,0 +1,204 @@
+<div class="landing-page-container">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#benefits">Benefits</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#testimonials">Testimonials</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          
+          <button class="btn btn-primary" type="button" (click)="goToLogin()">Login</button>
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section text-center py-5">
+    <div class="container">
+      <h1 class="display-3 fw-bold">Streamline Your Workforce Management</h1>
+      <p class="lead mt-3">Empower your HR and employees with an intuitive and comprehensive solution.</p>
+      <div class="cta-buttons mt-4">
+        <button class="btn btn-lg btn-primary me-3" (click)="goToLogin()">Get Started</button>
+        <button class="btn btn-lg btn-outline-light">Learn More</button>
+      </div>
+      <div class="hero-image mt-5">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Modern HR Management" class="img-fluid rounded shadow-lg" style="max-width: 800px; width: 100%; height: auto; object-fit: cover;">
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Key Features</h2>
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-person-lines-fill feature-icon mb-3"></i>
+            <h5 class="fw-bold">Employee Database</h5>
+            <p>Centralized platform for all employee records, profiles, and documents.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-calendar-check feature-icon mb-3"></i>
+            <h5 class="fw-bold">Leave Management</h5>
+            <p>Automated leave requests, approvals, and real-time leave balance tracking.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-currency-dollar feature-icon mb-3"></i>
+            <h5 class="fw-bold">Payroll Integration</h5>
+            <p>Seamless salary processing, payslip generation, and financial reports.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center mt-4">
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-graph-up feature-icon mb-3"></i>
+            <h5 class="fw-bold">Performance Tracking</h5>
+            <p>Set goals, track progress, and conduct performance reviews efficiently.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-bell-fill feature-icon mb-3"></i>
+            <h5 class="fw-bold">Announcements & Notifications</h5>
+            <p>Keep employees informed with company-wide announcements and alerts.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 rounded shadow-sm h-100">
+            <i class="bi bi-lock-fill feature-icon mb-3"></i>
+            <h5 class="fw-bold">Role-Based Access</h5>
+            <p>Secure access control ensuring data privacy and appropriate permissions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Benefits of Using EmpManage</h2>
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Improved Efficiency" class="img-fluid rounded shadow" style="max-width: 100%; height: auto; object-fit: cover;">
+        </div>
+        <div class="col-md-6">
+          <ul class="list-unstyled benefits-list ps-3">
+            <li class="d-flex align-items-start mb-3">
+              <i class="bi bi-check-circle-fill me-2 text-primary"></i>
+              <div>
+                <h5>Boost Productivity</h5>
+                <p>Automate routine HR tasks and free up time for strategic initiatives.</p>
+              </div>
+            </li>
+            <li class="d-flex align-items-start mb-3">
+              <i class="bi bi-check-circle-fill me-2 text-primary"></i>
+              <div>
+                <h5>Enhance Employee Experience</h5>
+                <p>Provide employees with self-service options and easy access to information.</p>
+              </div>
+            </li>
+            <li class="d-flex align-items-start mb-3">
+              <i class="bi bi-check-circle-fill me-2 text-primary"></i>
+              <div>
+                <h5>Ensure Compliance</h5>
+                <p>Stay up-to-date with labor laws and regulations with robust reporting.</p>
+              </div>
+            </li>
+            <li class="d-flex align-items-start mb-3">
+              <i class="bi bi-check-circle-fill me-2 text-primary"></i>
+              <div>
+                <h5>Data-Driven Decisions</h5>
+                <p>Gain insights from comprehensive HR analytics and reporting tools.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">What Our Clients Say</h2>
+      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="testimonial-card p-4 text-center rounded shadow-sm mx-auto">
+              <p class="lead">"EmpManage has revolutionized our HR processes. It's intuitive, powerful, and our team loves it!"</p>
+              <p class="fw-bold mb-0">- Jane Doe, HR Manager at Tech Solutions</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="testimonial-card p-4 text-center rounded shadow-sm mx-auto">
+              <p class="lead">"The best employee management system we've ever used. The support is fantastic!"</p>
+              <p class="fw-bold mb-0">- John Smith, CEO of Global Corp</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta-section py-5 text-center">
+    <div class="container">
+      <h2 class="display-4 fw-bold mb-3">Ready to Transform Your HR?</h2>
+      <p class="lead mb-4">Join hundreds of businesses that trust EmpManage for their workforce needs.</p>
+      <button class="btn btn-lg btn-light" (click)="goToLogin()">Get Started Today</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="py-4 text-center">
+    <div class="container">
+      <p>&copy; 2025 EmpManage. All rights reserved.</p>
+      <p>
+        <a href="#" class="text-white mx-2">Privacy Policy</a>
+        <a href="#" class="text-white mx-2">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Marquee for announcements - needs JS to animate -->
+  <div class="marquee-container bg-dark text-white py-2">
+    <div class="marquee-content">
+      <span>✨ Exciting New Features Coming Soon! &nbsp;&nbsp;&nbsp; 🎉 Happy Employees, Happy Company! &nbsp;&nbsp;&nbsp; 🚀 Boost Your Productivity Today!</span>
+    </div>
+  </div>
+</div> 

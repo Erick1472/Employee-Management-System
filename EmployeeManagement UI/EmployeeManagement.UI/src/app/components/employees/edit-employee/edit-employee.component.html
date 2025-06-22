@@ -1,0 +1,64 @@
+<div class="container my-4">
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>Edit Employee</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="editEmployeeForm" (ngSubmit)="updateEmployee()">
+                <div class="mb-3">
+                    <label for="empId" class="form-label">Emp ID</label>
+                    <input type="text" class="form-control" id="empId" formControlName="empId" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                    <div *ngIf="editEmployeeForm.get('firstName')?.invalid && editEmployeeForm.get('firstName')?.touched" class="text-danger">
+                        First Name is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                    <div *ngIf="editEmployeeForm.get('lastName')?.invalid && editEmployeeForm.get('lastName')?.touched" class="text-danger">
+                        Last Name is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="emailId" class="form-label">Email ID</label>
+                    <input type="email" class="form-control" id="emailId" formControlName="emailId">
+                    <div *ngIf="editEmployeeForm.get('emailId')?.invalid && editEmployeeForm.get('emailId')?.touched" class="text-danger">
+                        Valid Email ID is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="mobileNo" class="form-label">Mobile No</label>
+                    <input type="text" class="form-control" id="mobileNo" formControlName="mobileNo">
+                    <div *ngIf="editEmployeeForm.get('mobileNo')?.invalid && editEmployeeForm.get('mobileNo')?.touched" class="text-danger">
+                        Valid Mobile No is required (10 digits).
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="department" class="form-label">Department</label>
+                    <select class="form-select" id="department" formControlName="department">
+                        <option value="">--select--</option>
+                        <option *ngFor="let department of departments" [value]="department.departmentName">{{ department.departmentName }}</option>
+                    </select>
+                    <div *ngIf="editEmployeeForm.get('department')?.invalid && editEmployeeForm.get('department')?.touched" class="text-danger">
+                        Department is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateOfJoining" class="form-label">Date of Joining</label>
+                    <input type="date" class="form-control" id="dateOfJoining" formControlName="dateOfJoining">
+                    <div *ngIf="editEmployeeForm.get('dateOfJoining')?.invalid && editEmployeeForm.get('dateOfJoining')?.touched" class="text-danger">
+                        Date of Joining is required.
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="editEmployeeForm.invalid">Update</button>
+                    <button type="button" class="btn btn-danger" (click)="deleteEmployee()">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

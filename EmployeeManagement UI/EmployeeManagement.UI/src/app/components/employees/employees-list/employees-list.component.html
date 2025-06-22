@@ -1,0 +1,130 @@
+<div class="employees-list-container">
+  <!-- Search/Filter Bar -->
+  <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+    <input type="text" class="form-control form-control-sm w-auto" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by name or email">
+    <select [(ngModel)]="filter.department" (change)="applyFilters()" class="form-select form-select-sm">
+      <option value="all">All Departments</option>
+      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+    </select>
+    <button class="btn btn-outline-secondary btn-sm ms-2" (click)="clearFilters()"><i class="bi bi-x-circle"></i> Clear</button>
+    <div class="ms-auto" *ngIf="selectedEmployees.length > 0">
+      <button class="btn btn-danger btn-sm" (click)="bulkDelete()"><i class="bi bi-trash"></i> Delete Selected</button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading Employees...</p>
+  </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="!isLoading && filteredEmployees.length === 0" class="no-data-message">
+    <i class="bi bi-info-circle-fill"></i>
+    <p>No employees found. You can add a new employee to get started.</p>
+  </div>
+
+  <!-- Card Grid -->
+  <div *ngIf="!isLoading && filteredEmployees.length > 0" class="row g-4 animate__animated animate__fadeIn animate__faster">
+    <div class="col-md-4 col-lg-3" *ngFor="let employee of filteredEmployees">
+      <div class="card employee-card shadow-sm animate__animated animate__fadeInUp animate__faster" [class.selected-card]="selectedEmployees.includes(employee.empId)" (click)="openProfileModal(employee)" style="cursor:pointer;">
+        <div class="card-body d-flex flex-column align-items-center">
+          <img [src]="getEmployeeAvatar(employee)" class="employee-avatar mb-2" alt="Avatar">
+          <h5 class="card-title mb-1">{{ employee.firstName }} {{ employee.lastName }}</h5>
+          <div class="text-muted small mb-2">{{ employee.emailId }}</div>
+          <span class="badge bg-info mb-2"><i class="bi bi-building"></i> {{ employee.department }}</span>
+          <div class="d-flex gap-2 mt-2">
+            <input type="checkbox" [checked]="selectedEmployees.includes(employee.empId)" (click)="$event.stopPropagation(); toggleEmployeeSelection(employee.empId)">
+            <button class="btn btn-sm btn-primary" (click)="$event.stopPropagation(); editEmployee(employee.empId)" title="Edit Employee"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-sm btn-danger" (click)="$event.stopPropagation(); deleteEmployee(employee.empId)" title="Delete Employee"><i class="bi bi-trash-fill"></i></button>
+            <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation(); openPromoteModal(employee)" title="Promote / Change Position"><i class="bi bi-arrow-up-circle"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showProfileModal" aria-modal="true" aria-labelledby="profileModalLabel">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content glass-modal">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">Employee Profile</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeProfileModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="selectedProfile">
+            <div class="text-center mb-3">
+              <img [src]="getEmployeeAvatar(selectedProfile)" class="employee-avatar mb-2" alt="Avatar">
+              <h5>{{ selectedProfile.firstName }} {{ selectedProfile.lastName }}</h5>
+              <div class="text-muted small">{{ selectedProfile.emailId }}</div>
+              <span class="badge bg-info"><i class="bi bi-building"></i> {{ selectedProfile.department }}</span>
+            </div>
+            <div><strong>Employee ID:</strong> {{ selectedProfile.empId }}</div>
+            <div><strong>Phone:</strong> {{ selectedProfile.phone || '-' }}</div>
+            <div><strong>Position:</strong> {{ selectedProfile.position || '-' }}</div>
+            <div><strong>Status:</strong> <span class="badge" [ngClass]="selectedProfile.status === 'Active' ? 'bg-success' : 'bg-secondary'">{{ selectedProfile.status }}</span></div>
+            <div><strong>Date Joined:</strong> {{ selectedProfile.dateJoined | date:'fullDate' }}</div>
+            <div *ngIf="selectedProfile.bio"><strong>Bio:</strong> {{ selectedProfile.bio }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promotion/Assign Head Modal -->
+  <div class="modal fade show d-block animate__animated animate__fadeInDown animate__faster" tabindex="-1" role="dialog" *ngIf="showPromoteModal" aria-modal="true" aria-labelledby="promoteModalLabel">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content glass-modal">
+        <div class="modal-header">
+          <h5 class="modal-title" id="promoteModalLabel">Promote / Change Position</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closePromoteModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info py-2 mb-3">
+            Default position is <strong>Staff</strong>. Admin can promote or demote as needed.
+          </div>
+          <form #promoteForm="ngForm" (ngSubmit)="savePromotion()">
+            <div class="mb-3">
+              <label for="position" class="form-label">Position</label>
+              <select class="form-select" id="position" [(ngModel)]="promoteData.position" name="position" required>
+                <option value="Staff">Staff</option>
+                <option value="Team Lead">Team Lead</option>
+                <option value="Manager">Manager</option>
+                <option value="HR">HR</option>
+                <option value="Director">Director</option>
+                <option value="Head of Department">Head of Department</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="department" class="form-label">Assign as Head of Department</label>
+              <select class="form-select" id="department" [(ngModel)]="promoteData.headDepartment" name="headDepartment">
+                <option value="">-- None --</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+              <div class="form-text">Select a department to assign as head, or leave blank.</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closePromoteModal()">Cancel</button>
+              <button type="submit" class="btn btn-success" [disabled]="isPromoting">
+                <span *ngIf="isPromoting" class="spinner-border spinner-border-sm me-2"></span>
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast placeholder for feedback -->
+  <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div *ngFor="let toast of toasts" class="alert alert-dismissible fade show animate__animated animate__fadeInRight"
+         [ngClass]="{'alert-success': toast.type==='success', 'alert-danger': toast.type==='error'}" role="alert" style="min-width: 250px;">
+      <strong *ngIf="toast.header">{{ toast.header }}:</strong> {{ toast.message }}
+      <button type="button" class="btn-close" aria-label="Close" (click)="removeToast(toast)"></button>
+    </div>
+  </div>
+</div>
